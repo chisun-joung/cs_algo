@@ -14,12 +14,16 @@ int  main()
 
 int iteratorPowerOf2(int power)
 {
-	// TODO
-	return 0;  // 리턴값은 수정하세요.
+
+    int i,result=1;
+    for(i = 0; i < power; i++){
+        result = result * 2;
+    }
+	return result;
 }
 
 int recursivePowerOf2(int power)
 {
-	// TODO
-	return 0;  // 리턴값은 수정하세요.
+    if(power < 1) return 1;
+    return 2 * recursivePowerOf2(power-1);
 }
