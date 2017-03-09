@@ -38,13 +38,41 @@ void printArray(int *ary, int n)
 
 void iteratorSelectionSort(int *ary, int n)
 {
-	// TODO
-	return;
+    int i,j;
+    int selection;
+    int temp;
+    for( i = 0 ; i < n-1 ; i++)
+    {
+        selection = i;
+        for(j = i + 1; j < n ; j++)
+        {
+            if( ary[selection] > ary[j]){
+                selection = j;
+            }
+        }
+        temp = ary[selection];
+        ary[selection] = ary[i];
+        ary[i] = temp;
+    }
 }
 
 void recursiveSelectionSort(int *ary, int n)
 {
-	// TODO
-	return;
+    int i;
+    int selection = 0;
+    int temp;
+    
+    if( n==1 ){
+        return;
+    }
+    for(i=0; i<n; i++){
+        if(ary[selection] > ary[i]){
+            selection = i;
+        }
+    }
+    temp = ary[selection];
+    ary[selection] = ary[0];
+    ary[0] = temp;
+    recursiveSelectionSort(ary + 1, n - 1);
 }
 

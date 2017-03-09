@@ -24,14 +24,33 @@ int  main()
 
 void iteratorBubbleSort(int *ary, int n)
 {
-	// TODO
-	return;
+    int i, j;
+    int temp;
+    
+    for(i=n-1; i > 0; i--){
+        for(j=0; j<i; j++){
+            if(ary[j] > ary[j+1]){
+                temp = ary[j];
+                ary[j] = ary[j+1];
+                ary[j+1] = temp;
+            }
+        }
+    }
 }
 
 void recursiveBubbleSort(int *ary, int n)
 {
-	// TODO
-	return;
+    int i;
+    int temp;
+    if(n==1) return;
+    for(i=0; i<n-1; i++){
+        if(ary[i] > ary[i+1]){
+            temp = ary[i];
+            ary[i] = ary[i+1];
+            ary[i+1] = temp;
+        }
+    }
+    recursiveBubbleSort(ary, n-1);
 }
 void initArray(int *ary, int n)
 {
