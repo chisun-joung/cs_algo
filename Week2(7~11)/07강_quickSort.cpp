@@ -50,10 +50,24 @@ void quickSort(int *ary, int size)
 
 	pivot = ary[size-1];
 
-	// TODO
-
-	// 좌측 소구간에 대한 퀵 정렬 재귀 호출
-	// 우측 소구간에 대한 퀵 정렬 재귀 호출
+    i = -1;
+    j = size-1;
+    
+    while(1){
+        while(ary[++i]<pivot);
+        while(--j>=0 && ary[j]>pivot);
+        if(i>=j)
+            break;
+        temp = ary[i];
+        ary[i] = ary[j];
+        ary[j] = temp;
+    }
+    temp = ary[i];
+    ary[i] = ary[size-1];
+    ary[size-1] = temp;
+    
+    quickSort(ary,i);
+    quickSort(ary+i+1, size-i-1);
 }
 /*------------------------------------------------------------------------
 함수명 및 기능 : output() - 배열의 모든 원소 출력하기

@@ -239,6 +239,7 @@
 				B9EA47351E6FD96100ACF4B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
