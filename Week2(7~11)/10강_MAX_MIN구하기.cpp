@@ -1,19 +1,19 @@
 #include <stdio.h>
-size_t initArray(int *ap, size_t size); /* 100ê°œ ì´í•˜ë¡œ ì›í•˜ëŠ” ë§Œí¼ ì •ìˆ˜ë¥¼ ì…ë ¥ ë°›ì•„ ë°°ì—´ì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜ */
-int checkMAX(int *ap, size_t count, size_t *index); /* ë°°ì—´ë‚´ì˜ ìµœëŒ€ê°’ê³¼ ê·¸ ìœ„ì¹˜ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜ */
-int checkMIN(int *ap, size_t count, size_t *index); /* ë°°ì—´ë‚´ì˜ ìµœì†Œê°’ê³¼ ê·¸ ìœ„ì¹˜ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜ */
-void output(int maxNum, int maxIndex, int minNum, int minIndex); /* ê²°ê³¼ ì¶œë ¥ í•¨ìˆ˜ */
+size_t initArray(int *ap, size_t size); /* 100°³ ÀÌÇÏ·Î ¿øÇÏ´Â ¸¸Å­ Á¤¼ö¸¦ ÀÔ·Â ¹Ş¾Æ ¹è¿­¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö */
+int checkMAX(int *ap, size_t count, size_t *index); /* ¹è¿­³»ÀÇ ÃÖ´ë°ª°ú ±× À§Ä¡¸¦ ±¸ÇÏ´Â ÇÔ¼ö */
+int checkMIN(int *ap, size_t count, size_t *index); /* ¹è¿­³»ÀÇ ÃÖ¼Ò°ª°ú ±× À§Ä¡¸¦ ±¸ÇÏ´Â ÇÔ¼ö */
+void output(int maxNum, int maxIndex, int minNum, int minIndex); /* °á°ú Ãâ·Â ÇÔ¼ö */
 /*-------------------------------------------------------------------------------------
 Function name 	: main()
 ------------------------------------------------------------------------------------*/
 int main()
 {
-	int ary[100]; /* ìµœëŒ€ ìµœì†Œê°’ì„ ê²€ì‚¬í•  ë°ì´í„°ë¥¼ ì €ì¥í•˜ëŠ” ë°°ì—´ */
-	size_t count; /* ë°°ì—´ë‚´ì— ì €ì¥ëœ ë°ì´í„°ì˜ ê°œìˆ˜ ì €ì¥ */
-	int maxNum;  /* ìµœëŒ€ê°’ ì €ì¥ */
-	int minNum;  /* ìµœì†Œê°’ ì €ì¥  */
-	size_t maxIndex;  /* ìµœëŒ€ê°’ì˜ ìœ„ì¹˜(index) ì €ì¥  */
-	size_t minIndex;  /* ìµœì†Œê°’ì˜ ìœ„ì¹˜(index) ì €ì¥  */
+	int ary[100]; /* ÃÖ´ë ÃÖ¼Ò°ªÀ» °Ë»çÇÒ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â ¹è¿­ */
+	size_t count; /* ¹è¿­³»¿¡ ÀúÀåµÈ µ¥ÀÌÅÍÀÇ °³¼ö ÀúÀå */
+	int maxNum;  /* ÃÖ´ë°ª ÀúÀå */
+	int minNum;  /* ÃÖ¼Ò°ª ÀúÀå  */
+	size_t maxIndex;  /* ÃÖ´ë°ªÀÇ À§Ä¡(index) ÀúÀå  */
+	size_t minIndex;  /* ÃÖ¼Ò°ªÀÇ À§Ä¡(index) ÀúÀå  */
 
 	count = initArray(ary, sizeof(ary)/sizeof(ary[0]));
 	maxNum = checkMAX(ary, count, &maxIndex);
@@ -25,50 +25,71 @@ int main()
 }
 
 /*------------------------------------------------------------------
-Function name 	: initArray() - 100ê°œ ì´í•˜ë¡œ ì›í•˜ëŠ” ë§Œí¼ ì •ìˆ˜ë¥¼ ì…ë ¥ ë°›ì•„ ë°°ì—´ì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
-Parameters		: ap - ë°ì´í„° ì €ì¥ë°°ì—´ì˜ ì£¼ì†Œ
-				  size - ë°°ì—´ì˜ ë°©ì˜ ê°œìˆ˜
-Returns			: ë°°ì—´ë‚´ì— ì €ì¥ë˜ì–´ìˆëŠ” ë°ì´í„°ì˜ ê°œìˆ˜
+Function name 	: initArray() - 100°³ ÀÌÇÏ·Î ¿øÇÏ´Â ¸¸Å­ Á¤¼ö¸¦ ÀÔ·Â ¹Ş¾Æ ¹è¿­¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+Parameters		: ap - µ¥ÀÌÅÍ ÀúÀå¹è¿­ÀÇ ÁÖ¼Ò
+				  size - ¹è¿­ÀÇ ¹æÀÇ °³¼ö
+Returns			: ¹è¿­³»¿¡ ÀúÀåµÇ¾îÀÖ´Â µ¥ÀÌÅÍÀÇ °³¼ö
 ------------------------------------------------------------------*/
 size_t initArray(int *ap, size_t size)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	size_t index=0;
+	int number;
+	printf(" #Á¡¼ö ÀÔ·Â (0ÀÔ·Â½Ã Á¾·á)");
+	scanf("%d",&number);
+	while(number != 0)
+    {
+        ap[index] = number;
+        ++index;
+        scanf("%d", &number);
+    }
+	return index;
 }
 /*------------------------------------------------------------------
-Function name 	: checkMAX() - ë°°ì—´ë‚´ì˜ ìµœëŒ€ê°’ê³¼ ê·¸ ìœ„ì¹˜ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜
-Parameters		: ap - ë°ì´í„° ì €ì¥ë°°ì—´ì˜ ì£¼ì†Œ
-				  count - ë°°ì—´ë‚´ì— ì €ì¥ë˜ì–´ìˆëŠ” ë°ì´í„°ì˜ ê°œìˆ˜
-				  index - ìµœëŒ€ê°’ì˜ ì¸ë±ìŠ¤ë¥¼ ì €ì¥í•  ë³€ìˆ˜ì˜ ì‹œì‘ì£¼ì†Œë¥¼ ë°›ì€ í¬ì¸í„° ë³€ìˆ˜
-Returns			: ë°°ì—´ë‚´ì˜ ìµœëŒ€ê°’
+Function name 	: checkMAX() - ¹è¿­³»ÀÇ ÃÖ´ë°ª°ú ±× À§Ä¡¸¦ ±¸ÇÏ´Â ÇÔ¼ö
+Parameters		: ap - µ¥ÀÌÅÍ ÀúÀå¹è¿­ÀÇ ÁÖ¼Ò
+				  count - ¹è¿­³»¿¡ ÀúÀåµÇ¾îÀÖ´Â µ¥ÀÌÅÍÀÇ °³¼ö
+				  index - ÃÖ´ë°ªÀÇ ÀÎµ¦½º¸¦ ÀúÀåÇÒ º¯¼öÀÇ ½ÃÀÛÁÖ¼Ò¸¦ ¹ŞÀº Æ÷ÀÎÅÍ º¯¼ö
+Returns			: ¹è¿­³»ÀÇ ÃÖ´ë°ª
 ------------------------------------------------------------------*/
 int checkMAX(int *ap, size_t count, size_t *index)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	size_t i;
+	int maxIndex = 0;
+	for(i=1; i<count; ++i){
+        if(ap[maxIndex] < ap[i])
+            maxIndex = i;
+	}
+	*index = maxIndex;
+	return ap[maxIndex];
 }
 /*------------------------------------------------------------------
-Function name 	: checkMin() - ë°°ì—´ë‚´ì˜ ìµœì†Œê°’ê³¼ ê·¸ ìœ„ì¹˜ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜
-Parameters		: ap - ë°ì´í„° ì €ì¥ë°°ì—´ì˜ ì£¼ì†Œ
-				  count - ë°°ì—´ë‚´ì— ì €ì¥ë˜ì–´ìˆëŠ” ë°ì´í„°ì˜ ê°œìˆ˜
-				  index - ìµœì†Œê°’ì˜ ì¸ë±ìŠ¤ë¥¼ ì €ì¥í•  ë³€ìˆ˜ì˜ ì‹œì‘ì£¼ì†Œë¥¼ ë°›ì€ í¬ì¸í„° ë³€ìˆ˜
-Returns			: ë°°ì—´ë‚´ì˜ ìµœì†Œê°’
+Function name 	: checkMin() - ¹è¿­³»ÀÇ ÃÖ¼Ò°ª°ú ±× À§Ä¡¸¦ ±¸ÇÏ´Â ÇÔ¼ö
+Parameters		: ap - µ¥ÀÌÅÍ ÀúÀå¹è¿­ÀÇ ÁÖ¼Ò
+				  count - ¹è¿­³»¿¡ ÀúÀåµÇ¾îÀÖ´Â µ¥ÀÌÅÍÀÇ °³¼ö
+				  index - ÃÖ¼Ò°ªÀÇ ÀÎµ¦½º¸¦ ÀúÀåÇÒ º¯¼öÀÇ ½ÃÀÛÁÖ¼Ò¸¦ ¹ŞÀº Æ÷ÀÎÅÍ º¯¼ö
+Returns			: ¹è¿­³»ÀÇ ÃÖ¼Ò°ª
 ------------------------------------------------------------------*/
 int checkMIN(int *ap, size_t count, size_t *index)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	size_t i;
+	int minIndex = 0;
+	for(i=1; i<count; ++i){
+        if(ap[minIndex]>ap[i])
+            minIndex = i;
+	}
+	*index = minIndex;
+	return ap[minIndex];
 }
 /*------------------------------------------------------------------
-Function name 	: output() - ê²°ê³¼ ì¶œë ¥ í•¨ìˆ˜
-Parameters		: maxNum - ìµœëŒ€ê°’
-				  maxIndex - ìµœëŒ€ê°’ì˜ ì¸ë±ìŠ¤
-				  minNum - ìµœì†Œê°’
-				  minIndex - ìµœì†Œê°’ì˜ ì¸ë±ìŠ¤
-Returns			: ì—†ìŒ
+Function name 	: output() - °á°ú Ãâ·Â ÇÔ¼ö
+Parameters		: maxNum - ÃÖ´ë°ª
+				  maxIndex - ÃÖ´ë°ªÀÇ ÀÎµ¦½º
+				  minNum - ÃÖ¼Ò°ª
+				  minIndex - ÃÖ¼Ò°ªÀÇ ÀÎµ¦½º
+Returns			: ¾øÀ½
 ------------------------------------------------------------------*/
 void output(int maxNum, int maxIndex, int minNum, int minIndex)
 {
-	printf(" ìµœëŒ€ê°’ : %d(index:%d) / ìµœëŒ€ê°’ : %d(index:%d)\n",
+	printf(" ÃÖ´ë°ª : %d(index:%d) / ÃÖ¼Ò°ª : %d(index:%d)\n",
 			maxNum, maxIndex, minNum, minIndex);
 }
