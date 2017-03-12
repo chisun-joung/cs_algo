@@ -5,77 +5,133 @@
 #include "heap.h"
 
 /*--------------------------------------------------------------------------------------
-Function name	: createHeap() - íž™ ìƒì„± í•¨ìˆ˜
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-				  size - íž™ì˜ í¬ê¸°(ì €ìž¥ê°€ëŠ¥í•œ ë°ì´í„°ì˜ ê°œìˆ˜)
-Returns			: ìƒì„± ì„±ê³µí•˜ë©´ TRUE, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name	: createHeap() - Èü »ý¼º ÇÔ¼ö
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+				  size - ÈüÀÇ Å©±â(ÀúÀå°¡´ÉÇÑ µ¥ÀÌÅÍÀÇ °³¼ö)
+Returns			: »ý¼º ¼º°øÇÏ¸é TRUE, ½ÇÆÐÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL createHeap(Heap *hPtr , int size)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	if(hPtr == NULL)
+        return FALSE;
+    hPtr->heap = (int *)calloc(size+1,sizeof(int));
+    if(hPtr->heap==NULL)
+        return FALSE;
+    hPtr->hSize = size;
+    hPtr->count = 0;
+    hPtr->heap[0] = INT_MAX;
+	return TRUE;  // ¸®ÅÏ°ªÀº ¼öÁ¤ÇÏ¼¼¿ä.
 }
 /*--------------------------------------------------------------------------------------
-Function name	: printHeape() - íž™ ë‚´ì˜ ë°ì´í„° ì¶œë ¥ (ìƒìœ„->í•˜ìœ„ ë°©í•­)
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ì—†ìŒ
+Function name	: printHeape() - Èü ³»ÀÇ µ¥ÀÌÅÍ Ãâ·Â (»óÀ§->ÇÏÀ§ ¹æÇ×)
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void printHeap(const Heap * hPtr)
 {
-	// TODO
-	return;
+    int i;
+    if(hPtr==NULL)
+        return;
+
+    for(i=1; i <= hPtr->count; ++i)
+    {
+        printf("%3d", hPtr->heap[i]);
+    }
+    printf("\n");
 }
 /*--------------------------------------------------------------------------------------
-Function name	: destroyHeap() - íž™ ì†Œë©¸ í•¨ìˆ˜
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ì—†ìŒ
+Function name	: destroyHeap() - Èü ¼Ò¸ê ÇÔ¼ö
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void destroyHeap(Heap *hPtr)
 {
-	// TODO
-	return;
+	if(hPtr == NULL)
+        return;
+    if(hPtr->heap != NULL)
+        free(hPtr->heap);
+    hPtr->heap = NULL;
+    hPtr->hSize = 0;
+    hPtr->count = 0;
 }
 
 /*--------------------------------------------------------------------------------------
-Function name	: deleteDownHeap() - íž™ì—ì„œ ë°ì´í„° í•˜ë‚˜ë¥¼ ì‚­ì œ
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-				  getData - íž™ì— êº¼ë‚¸ ë°ì´í„° ì €ìž¥ë³€ìˆ˜ì˜ ì£¼ì†Œ
-Returns			: ì„±ê³µì ìœ¼ë¡œ ì‚­ì œí•˜ë©´ TRUE ë¦¬í„´, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name	: deleteDownHeap() - Èü¿¡¼­ µ¥ÀÌÅÍ ÇÏ³ª¸¦ »èÁ¦
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+				  getData - Èü¿¡ ²¨³½ µ¥ÀÌÅÍ ÀúÀåº¯¼öÀÇ ÁÖ¼Ò
+Returns			: ¼º°øÀûÀ¸·Î »èÁ¦ÇÏ¸é TRUE ¸®ÅÏ, ½ÇÆÐÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL deleteDownHeap(Heap * hPtr, int * getData)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	if(hPtr == NULL)
+        return FALSE;
+    if(isHeapEmpty(hPtr))
+        return FALSE;
+    *getData = hPtr->heap[1];
+    hPtr->heap[1] = hPtr->heap[hPtr->count];
+    hPtr->heap[hPtr->count] = INT_MIN;
+    --hPtr->count;
+
+    downHeap(hPtr,1);
+	return TRUE;
 }
 /*--------------------------------------------------------------------------------------
-Function name	: downHeap() - ì§€ì • ë…¸ë“œë¥¼ ìœ„ì¹˜ì— ë§žê²Œ down ì‹œí‚´
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-				  position - í•˜ê°•(down heap)ì‹œí‚¬ ë°ì´í„°ì˜ ìœ„ì¹˜
-Returns			: ì—†ìŒ
+Function name	: downHeap() - ÁöÁ¤ ³ëµå¸¦ À§Ä¡¿¡ ¸Â°Ô down ½ÃÅ´
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+				  position - ÇÏ°­(down heap)½ÃÅ³ µ¥ÀÌÅÍÀÇ À§Ä¡
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void downHeap(Heap *hPtr, int position)
 {
-	// TODO
-	return;
+	int childPosition;
+	int downData;
+
+	if(hPtr == NULL)
+        return;
+
+    downData = hPtr->heap[position];
+
+    while(position <= hPtr->count / 2)
+    {
+        childPosition = position << 1;
+        if(hPtr->heap[childPosition] < hPtr->heap[childPosition + 1])
+        {
+            ++childPosition;
+        }
+        if(downData >= hPtr->heap[childPosition])
+            break;
+        hPtr->heap[position] = hPtr->heap[childPosition];
+        position = childPosition;
+
+    }
+    hPtr->heap[position] = downData;
 }
 
 /*--------------------------------------------------------------------------------------
-Function name	: isHeapEmpty() - íž™ì´ ì™„ì „ížˆ ë¹„ì–´ìžˆëŠ”ê°€ ê²€ì‚¬
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ì™„ì „ížˆ ë¹„ì–´ìžˆìœ¼ë©´ TRUE ë¦¬í„´, ë¹„ì–´ìžˆì§€ ì•Šìœ¼ë©´ FALSE ë¦¬í„´
+Function name	: isHeapEmpty() - ÈüÀÌ ¿ÏÀüÈ÷ ºñ¾îÀÖ´Â°¡ °Ë»ç
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ¿ÏÀüÈ÷ ºñ¾îÀÖÀ¸¸é TRUE ¸®ÅÏ, ºñ¾îÀÖÁö ¾ÊÀ¸¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL isHeapEmpty(Heap *hPtr)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+    if(hPtr==NULL)
+        return FALSE;
+    if(hPtr->count == 0)
+        return TRUE;
+    else
+        return FALSE;
 }
 /*--------------------------------------------------------------------------------------
-Function name	: isHeapFull() - íž™ì´ ê½‰ì°¨ ìžˆëŠ”ê°€ ê²€ì‚¬
-Parameters		: hPtr - íž™ êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ê½‰ ì°¨ ìžˆìœ¼ë©´ TRUE ë¦¬í„´, ê½‰ ì°¨ ìžˆì§€ ì•Šìœ¼ë©´ FALSE ë¦¬í„´
+Function name	: isHeapFull() - ÈüÀÌ ²ËÂ÷ ÀÖ´Â°¡ °Ë»ç
+Parameters		: hPtr - Èü ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ²Ë Â÷ ÀÖÀ¸¸é TRUE ¸®ÅÏ, ²Ë Â÷ ÀÖÁö ¾ÊÀ¸¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL isHeapFull(Heap *hPtr)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	if(hPtr == NULL)
+        return FALSE;
+    if(hPtr->count == hPtr->hSize)
+        return TRUE;
+    else
+        return FALSE;
 }

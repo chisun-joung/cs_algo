@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1489300687 source:d:\cprogramming\cs_algo\week2(7~11)\08悪-09悪_heap sort\heap_testmain.cpp
+	<stdio.h>
+	"heap.h"
+
+1489300687 d:\cprogramming\cs_algo\week2(7~11)\08悪-09悪_heap sort\heap.h
+
+1489303291 source:d:\cprogramming\cs_algo\week2(7~11)\08悪-09悪_heap sort\heap.cpp
+	<stdio.h>
+	<malloc.h>
+	<limits.h>
+	"heap.h"
+

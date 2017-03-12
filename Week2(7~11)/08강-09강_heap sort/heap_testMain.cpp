@@ -6,8 +6,8 @@
 int main()
 {
 	//int ary[9] = {1,2,3,4,5,6,7,8,9};
-	//int ary[20] = {13,3,20,5,11,17,6,7,19,9,15,10,4,12,1,14,16,8,18,2};
-	int ary[20] = {1,2,3,4,4,3,2,1,1,1,2,2,3,3,4,4,4,3,2,1};
+	int ary[20] = {13,3,20,5,11,17,6,7,19,9,15,10,4,12,1,14,16,8,18,2};
+	//int ary[20] = {1,2,3,4,4,3,2,1,1,1,2,2,3,3,4,4,4,3,2,1};
 	int i;
 	int size = sizeof(ary)/sizeof(ary[0]);
 	Heap heap;
@@ -18,7 +18,7 @@ int main()
 		heap.heap[i+1] = ary[i];
 	heap.count = size;
 
-	for(i=heap.hSize/2; i>=1; --i)  /* ìƒí–¥ì‹ í™ ìƒì„±, ëª¨ë“  ë‚´ë¶€ ë…¸ë“œì— ëŒ€í•´ í•˜í–¥ì‘ì—… */
+	for(i=heap.hSize/2; i>=1; --i)  /* »óÇâ½Ä Èü »ı¼º, ¸ğµç ³»ºÎ ³ëµå¿¡ ´ëÇØ ÇÏÇâÀÛ¾÷ */
 		downHeap(&heap, i);
 
 	printf("print heap  : ");
@@ -30,7 +30,7 @@ int main()
 		if(res==TRUE)
 			printf("%3d", getData);
 		else
-			printf(" delete heap ì‹¤íŒ¨ ");
+			printf(" delete heap ½ÇÆĞ ");
 	}
 	printf("\n\n");
 	destroyHeap(&heap);
@@ -42,23 +42,23 @@ int main()
 //	createHeap(&heap, size);
 //	for(i=0; i<size; ++i)
 //		if(insertUpHeap(&heap, ary[i]) == FALSE)
-//			printf(" insert heap ì‹¤íŒ¨!\n");
+//			printf(" insert heap ½ÇÆĞ!\n");
 //
 //	if(insertUpHeap(&heap, 99) == FALSE)
-//			printf(" insert heap ì‹¤íŒ¨!\n");
+//			printf(" insert heap ½ÇÆĞ!\n");
 //
 //	printHeap(&heap);
 //
 //	for(i=0; i<size; ++i)
 //	{
 //		if(deleteDownHeap(&heap, &getData) == FALSE)
-//			printf(" delete heap ì‹¤íŒ¨ \n");
+//			printf(" delete heap ½ÇÆĞ \n");
 //		else
 //			printf("%3d", getData);
 //	}
 //	printf("\n");
 //	if(deleteDownHeap(&heap, &getData) == FALSE)
-//			printf(" delete heap ì‹¤íŒ¨! \n");
+//			printf(" delete heap ½ÇÆĞ! \n");
 //
 //	destroyHeap(&heap);
 //
@@ -66,6 +66,6 @@ int main()
 //	return 0;
 //
 //	/*-----------------------------------------------------------------------------------
-//	heapì˜ ì„±ëŠ¥í–¥ìƒ ê¸°ë²• : downHeapë§Œ ì‹¤ì‹œí•˜ê³  upHeapì„ ì‹¤ì‹œí•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì†ë„ ë¹ ë¦„
+//	heapÀÇ ¼º´ÉÇâ»ó ±â¹ı : downHeap¸¸ ½Ç½ÃÇÏ°í upHeapÀ» ½Ç½ÃÇÏÁö ¾ÊÀ¸¹Ç·Î ¼Óµµ ºü¸§
 //	----------------------------------------------------------------------------------*/
-//	printf("\n\n heapì˜ ì„±ëŠ¥í–¥ìƒ ê¸°ë²• : upHeapì„ ì‹¤ì‹œí•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ì†ë„ ë¹ ë¦„\n");
+//	printf("\n\n heapÀÇ ¼º´ÉÇâ»ó ±â¹ı : upHeapÀ» ½Ç½ÃÇÏÁö ¾ÊÀ¸¹Ç·Î ¼Óµµ ºü¸§\n");
