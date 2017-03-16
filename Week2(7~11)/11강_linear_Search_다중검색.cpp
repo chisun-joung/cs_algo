@@ -1,60 +1,60 @@
 #include <stdio.h>
 #include <malloc.h>
-int linearUniqueSearch(int *ap, size_t size, int key);	/* ìˆœì°¨ê²€ìƒ‰í•¨ìˆ˜(ë‹¨ì¼ê²€ìƒ‰) */
-size_t *linearMultiSearch(int *ap, size_t size, int key, size_t *pcnt);	/* ìˆœì°¨ê²€ìƒ‰í•¨ìˆ˜(ë‹¤ì¤‘ê²€ìƒ‰) */
-void output(int *ap, size_t size);	/* ë°°ì—´ì˜ ëª¨ë“  ì›ì†Œ ì¶œë ¥í•˜ê¸° */
-void myflush();	/* ì…ë ¥ë²„í¼(stdin)ì•ˆì˜ ëª¨ë“  ë°ì´í„°ë¥¼ ì‚­ì œ í•¨ */
+int linearUniqueSearch(int *ap, size_t size, int key);	/* ¼øÂ÷°Ë»öÇÔ¼ö(´ÜÀÏ°Ë»ö) */
+size_t *linearMultiSearch(int *ap, size_t size, int key, size_t *pcnt);	/* ¼øÂ÷°Ë»öÇÔ¼ö(´ÙÁß°Ë»ö) */
+void output(int *ap, size_t size);	/* ¹è¿­ÀÇ ¸ğµç ¿ø¼Ò Ãâ·ÂÇÏ±â */
+void myflush();	/* ÀÔ·Â¹öÆÛ(stdin)¾ÈÀÇ ¸ğµç µ¥ÀÌÅÍ¸¦ »èÁ¦ ÇÔ */
 /*-------------------------------------------------------------------------------------
 Function name 	: main()
 ------------------------------------------------------------------------------------*/
 int main()
 {
 	int ary[]={6,17,3,25,6,17,10,13,35,8,17};
-	size_t size;		/* ë°°ì—´ìš”ì†Œ ê°œìˆ˜ ì €ì¥ */
-	int key;			/* ê²€ìƒ‰í•  ìˆ«ì ì €ì¥ */
-	int index;			/* ë‹¨ì¼ê²€ìƒ‰ëœ ë°ì´í„°ì˜ ì¸ë±ìŠ¤ ì €ì¥ */
+	size_t size;		/* ¹è¿­¿ä¼Ò °³¼ö ÀúÀå */
+	int key;			/* °Ë»öÇÒ ¼ıÀÚ ÀúÀå */
+	int index;			/* ´ÜÀÏ°Ë»öµÈ µ¥ÀÌÅÍÀÇ ÀÎµ¦½º ÀúÀå */
 	size_t i;			/* iterator */
-	int res;        	/* scanf()í•¨ìˆ˜ì˜ ë¦¬í„´ê°’ ì €ì¥ */
-	size_t *multiIndex;	/* ë‹¤ì¤‘ê²€ìƒ‰ëœ ë°ì´í„°ì˜ ì¸ë±ìŠ¤ ì €ì¥ ë°°ì—´ì˜ ì£¼ì†Œ ì €ì¥ */
-	size_t findCnt;		/* ë‹¤ì¤‘ê²€ìƒ‰ëœ ë°ì´í„°ì˜ ê°œìˆ˜ */
+	int res;        	/* scanf()ÇÔ¼öÀÇ ¸®ÅÏ°ª ÀúÀå */
+	size_t *multiIndex;	/* ´ÙÁß°Ë»öµÈ µ¥ÀÌÅÍÀÇ ÀÎµ¦½º ÀúÀå ¹è¿­ÀÇ ÁÖ¼Ò ÀúÀå */
+	size_t findCnt;		/* ´ÙÁß°Ë»öµÈ µ¥ÀÌÅÍÀÇ °³¼ö */
 
-	size = sizeof(ary)/sizeof(ary[0]);	/* ë°°ì—´ì˜ ë°©ì˜ ê°œìˆ˜ ê³„ì‚° */
+	size = sizeof(ary)/sizeof(ary[0]);	/* ¹è¿­ÀÇ ¹æÀÇ °³¼ö °è»ê */
 	output(ary, size);
-	/* ë‹¨ì¼ ê²€ìƒ‰ í…ŒìŠ¤íŠ¸ */
+	/* ´ÜÀÏ °Ë»ö Å×½ºÆ® */
 	printf("------------------------------------------\n");
-	printf("\t ë‹¨ì¼ ê²€ìƒ‰ í…ŒìŠ¤íŠ¸\n");
+	printf("\t ´ÜÀÏ °Ë»ö Å×½ºÆ®\n");
 	printf("------------------------------------------\n");
 	while(1){
-		printf("ë‹¨ì¼ ê²€ìƒ‰í•  ìˆ«ì ì…ë ¥(ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ) : ");
+		printf("´ÜÀÏ °Ë»öÇÒ ¼ıÀÚ ÀÔ·Â(¹®ÀÚÀÔ·Â ½Ã Á¾·á) : ");
 		res = scanf("%d", &key);
-		if(res != 1) {break;}   /* ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ */
+		if(res != 1) {break;}   /* ¹®ÀÚÀÔ·Â ½Ã Á¾·á */
 		if( ( index = linearUniqueSearch(ary, size, key) ) != -1){
-			printf("%dëŠ” %dë²ˆë°© ë°ì´í„°ì…ë‹ˆë‹¤.\n", key, index);
+			printf("%d´Â %d¹ø¹æ µ¥ÀÌÅÍÀÔ´Ï´Ù.\n", key, index);
 		}
 		else{
-			printf("%dëŠ” ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", key);
+			printf("%d´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n", key);
 		}
 	}
-	myflush();	/* ì…ë ¥ë²„í¼(stdin)ë‚´ì˜ ëª¨ë“  ë°ì´í„°ë¥¼ ì‚­ì œ */
+	myflush();	/* ÀÔ·Â¹öÆÛ(stdin)³»ÀÇ ¸ğµç µ¥ÀÌÅÍ¸¦ »èÁ¦ */
 
-	/* ë‹¤ì¤‘ ê²€ìƒ‰ í…ŒìŠ¤íŠ¸ */
+	/* ´ÙÁß °Ë»ö Å×½ºÆ® */
 	printf("------------------------------------------\n");
-	printf("\t ë‹¤ì¤‘ ê²€ìƒ‰ í…ŒìŠ¤íŠ¸ \n");
+	printf("\t ´ÙÁß °Ë»ö Å×½ºÆ® \n");
 	printf("------------------------------------------\n");
 	while(1){
-		printf("ë‹¤ì¤‘ ê²€ìƒ‰í•  ìˆ«ì ì…ë ¥(ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ) : ");
+		printf("´ÙÁß °Ë»öÇÒ ¼ıÀÚ ÀÔ·Â(¹®ÀÚÀÔ·Â ½Ã Á¾·á) : ");
 		res = scanf("%d", &key);
-		if(res != 1) {break;}   // ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ
+		if(res != 1) {break;}   // ¹®ÀÚÀÔ·Â ½Ã Á¾·á
 		if( ( multiIndex = linearMultiSearch(ary, size, key, &findCnt) ) != NULL){
-			printf("%dëŠ” : ", key);
+			printf("%d´Â : ", key);
 			for(i=0; i<findCnt; ++i){
-				printf("%dë²ˆë°©, ", multiIndex[i]);
+				printf("%d¹ø¹æ, ", multiIndex[i]);
 			}
-			printf("\b\b ë°ì´í„° ì…ë‹ˆë‹¤.\n");
-			free(multiIndex);  /* ì•ˆí•˜ë©´ memory leak!! */
+			printf("\b\b µ¥ÀÌÅÍ ÀÔ´Ï´Ù.\n");
+			free(multiIndex);  /* ¾ÈÇÏ¸é memory leak!! */
 		}
 		else{
-			printf("%dëŠ” ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", key);
+			printf("%d´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n", key);
 		}
 	}
 	myflush();
@@ -62,40 +62,56 @@ int main()
 	return 0;
 }
 /*---------------------------------------------------------------------
-Function name 	: linearUniqueSearch() - ìˆœì°¨ê²€ìƒ‰í•¨ìˆ˜(ë‹¨ì¼ê²€ìƒ‰)
-Parameters		: ap - ê²€ìƒ‰í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  size - ë°°ì—´ë‚´ì˜ ë°ì´í„° ìˆ˜
-				  key - ê²€ìƒ‰í•  ë°ì´í„°
-Returns			: ê²€ìƒ‰ ì„±ê³µ ì‹œ ì°¾ì€ ìˆ«ìì˜ index ë¦¬í„´ / ê²€ìƒ‰ ì‹¤íŒ¨ ì‹œ -1 ë¦¬í„´
+Function name 	: linearUniqueSearch() - ¼øÂ÷°Ë»öÇÔ¼ö(´ÜÀÏ°Ë»ö)
+Parameters		: ap - °Ë»öÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  size - ¹è¿­³»ÀÇ µ¥ÀÌÅÍ ¼ö
+				  key - °Ë»öÇÒ µ¥ÀÌÅÍ
+Returns			: °Ë»ö ¼º°ø ½Ã Ã£Àº ¼ıÀÚÀÇ index ¸®ÅÏ / °Ë»ö ½ÇÆĞ ½Ã -1 ¸®ÅÏ
 --------------------------------------------------------------------*/
 int linearUniqueSearch(int *ap, size_t size, int key)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	size_t i;
+	int findIndex = -1;
+	for(i=0; i<size; ++i){
+        if(key == ap[i]){
+            findIndex = i;
+            break;
+        }
+	}
+	return findIndex;
 }
 /*---------------------------------------------------------------------
-Function name 	: linearMultiSearch() - ìˆœì°¨ê²€ìƒ‰í•¨ìˆ˜(ë‹¤ì¤‘ê²€ìƒ‰)
-Parameters		: ap - ê²€ìƒ‰í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  size - ë°°ì—´ë‚´ì˜ ë°ì´í„° ê°œìˆ˜
-				  key - ê²€ìƒ‰í•  ë°ì´í„°
-				  pcnt - ê²€ìƒ‰ëœ ë°ì´í„°ì˜ ê°œìˆ˜ë¥¼ ì €ì¥í•œ ê³µê°„ì˜ ì‹œì‘ì£¼ì†Œ
-Returns			: ì°¾ì€ indexë“¤ì´ ì €ì¥ëœ ë™ì í• ë‹¹ ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ ë¦¬í„´ / ì‹¤íŒ¨ ì‹œ NULL pointer ë¦¬í„´
+Function name 	: linearMultiSearch() - ¼øÂ÷°Ë»öÇÔ¼ö(´ÙÁß°Ë»ö)
+Parameters		: ap - °Ë»öÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  size - ¹è¿­³»ÀÇ µ¥ÀÌÅÍ °³¼ö
+				  key - °Ë»öÇÒ µ¥ÀÌÅÍ
+				  pcnt - °Ë»öµÈ µ¥ÀÌÅÍÀÇ °³¼ö¸¦ ÀúÀåÇÑ °ø°£ÀÇ ½ÃÀÛÁÖ¼Ò
+Returns			: Ã£Àº indexµéÀÌ ÀúÀåµÈ µ¿ÀûÇÒ´ç ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò ¸®ÅÏ / ½ÇÆĞ ½Ã NULL pointer ¸®ÅÏ
 --------------------------------------------------------------------*/
 size_t * linearMultiSearch(int *ap, size_t size, int key, size_t *pcnt)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	size_t i;
+	size_t *pIndex = NULL;
+	*pcnt = 0;
+	for(i=0; i<size; i++){
+        if(key == ap[i]){
+            pIndex = (size_t *) realloc(pIndex, (*pcnt+1) * sizeof(size_t));
+            pIndex[*pcnt] = i;
+            ++*pcnt;
+        }
+	}
+	return pIndex;  // ¸®ÅÏ°ªÀº ¼öÁ¤ÇÏ¼¼¿ä.
 }
 /*------------------------------------------------------------------------
-Function name 	: output() - ë°°ì—´ì˜ ëª¨ë“  ì›ì†Œ ì¶œë ¥í•˜ê¸°
-Parameters		: ap - ì •ë ¬í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  size - ë°ì´í„°ì˜ ê°œìˆ˜
-Returns			: ì—†ìŒ
+Function name 	: output() - ¹è¿­ÀÇ ¸ğµç ¿ø¼Ò Ãâ·ÂÇÏ±â
+Parameters		: ap - Á¤·ÄÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  size - µ¥ÀÌÅÍÀÇ °³¼ö
+Returns			: ¾øÀ½
 ------------------------------------------------------------------------*/
 void output(int *ap, size_t size)
 {
 	size_t i;
-	printf("ë°°ì—´ ë°ì´í„° : ");
+	printf("¹è¿­ µ¥ÀÌÅÍ : ");
 	for(i=0; i<size;i++)
 	{
 		printf(" %d ", ap[i]);
@@ -103,9 +119,9 @@ void output(int *ap, size_t size)
 	printf("\n");
 }
 /*------------------------------------------------------------------------
-Function name 	: myflush() - ì…ë ¥ë²„í¼(stdin)ì•ˆì˜ ëª¨ë“  ë°ì´í„°ë¥¼ ì‚­ì œ í•¨
-Parameters		: ì—†ìŒ
-Returns			: ì—†ìŒ
+Function name 	: myflush() - ÀÔ·Â¹öÆÛ(stdin)¾ÈÀÇ ¸ğµç µ¥ÀÌÅÍ¸¦ »èÁ¦ ÇÔ
+Parameters		: ¾øÀ½
+Returns			: ¾øÀ½
 ------------------------------------------------------------------------*/
 void myflush(){
 	while(getchar()!='\n'){

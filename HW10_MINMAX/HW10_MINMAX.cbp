@@ -32,7 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../Week2(7~11)/10강_MAX_MIN구하기.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
