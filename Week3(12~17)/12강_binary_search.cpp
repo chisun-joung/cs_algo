@@ -9,97 +9,117 @@ Function name 	: main()
 int main()
 {
 	int ary[]={11,3,25,7,19,10,13,35,8,19};
-	int size;        // ë°°ì—´ìš”ì†Œê°œìˆ˜ ì €ì¥
-	int key;         // ì°¾ì„ ìˆ«ì ì €ì¥
-	int index;      // ê²€ìƒ‰ëœ ë°ì´í„°ì˜ ì¸ë±ìŠ¤
-	int res;        // scanf()í•¨ìˆ˜ì˜ ë¦¬í„´ê°’ ì €ì¥
+	int size;        // ¹è¿­¿ä¼Ò°³¼ö ÀúÀå
+	int key;         // Ã£À» ¼ıÀÚ ÀúÀå
+	int index;      // °Ë»öµÈ µ¥ÀÌÅÍÀÇ ÀÎµ¦½º
+	int res;        // scanf()ÇÔ¼öÀÇ ¸®ÅÏ°ª ÀúÀå
 	size = sizeof(ary)/sizeof(ary[0]);
 	quickSort(ary, size);
 	output(ary, size);
 
 	while(1)
 	{
-		printf("ê²€ìƒ‰í•  ìˆ«ì ì…ë ¥(ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ) : ");
+		printf("°Ë»öÇÒ ¼ıÀÚ ÀÔ·Â(¹®ÀÚÀÔ·Â ½Ã Á¾·á) : ");
 		res = scanf("%d", &key);
-		if(res != 1) {break;}   // ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ
+		if(res != 1) {break;}   // ¹®ÀÚÀÔ·Â ½Ã Á¾·á
 		if( ( index = rbinarySearch(ary, 0, size-1, key) ) != -1)
 		{
-			printf("%dëŠ” %dë²ˆë°© ë°ì´í„°ì…ë‹ˆë‹¤.\n", key, index);
+			printf("%d´Â %d¹ø¹æ µ¥ÀÌÅÍÀÔ´Ï´Ù.\n", key, index);
 		}
 		else
 		{
-			printf("%dëŠ” ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.\n", key);
+			printf("%d´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.\n", key);
 		}
 	}
 	return 0;
 }
 /*---------------------------------------------------------------------
-Function name 	: binarySearch() - ì´ë¶„ ê²€ìƒ‰ í•¨ìˆ˜
-Parameters		: ap - ê²€ìƒ‰í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  leftIndex - ê²€ìƒ‰ êµ¬ê°„ì˜ ì¢Œì¸¡ ì¸ë±ìŠ¤
-				  rightIndex - ê²€ìƒ‰ êµ¬ê°„ì˜ ìš°ì¸¡ ì¸ë±ìŠ¤
-				  key - ê²€ìƒ‰í•  ë°ì´í„°
-Returns			: ê²€ìƒ‰ ì„±ê³µ ì‹œ - ì°¾ì€ ìˆ«ìì˜ index / ê²€ìƒ‰ ì‹¤íŒ¨ ì‹œ - -1 ë¦¬í„´
+Function name 	: binarySearch() - ÀÌºĞ °Ë»ö ÇÔ¼ö
+Parameters		: ap - °Ë»öÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  leftIndex - °Ë»ö ±¸°£ÀÇ ÁÂÃø ÀÎµ¦½º
+				  rightIndex - °Ë»ö ±¸°£ÀÇ ¿ìÃø ÀÎµ¦½º
+				  key - °Ë»öÇÒ µ¥ÀÌÅÍ
+Returns			: °Ë»ö ¼º°ø ½Ã - Ã£Àº ¼ıÀÚÀÇ index / °Ë»ö ½ÇÆĞ ½Ã - -1 ¸®ÅÏ
 --------------------------------------------------------------------*/
 int binarySearch(int *ap, int leftIndex, int rightIndex, int key)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	int midIndex;
+	while(rightIndex >= leftIndex)
+    {
+        midIndex = (leftIndex + rightIndex) / 2;
+        if(key == ap[midIndex])
+            return midIndex;
+        else if( key < ap[midIndex])
+            rightIndex = midIndex-1;
+        else
+            leftIndex = midIndex+1;
+    }
+	return -1;
 }
 /*------------------------------------------------------------------------
-Function name 	: rbinarySearch() - ì¬ê·€í˜¸ì¶œ ê¸°ë²•ì˜ ì´ë¶„ ê²€ìƒ‰ í•¨ìˆ˜
-Parameters		: ap - ê²€ìƒ‰í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  leftIndex - ê²€ìƒ‰ êµ¬ê°„ì˜ ì¢Œì¸¡ ì¸ë±ìŠ¤
-				  rightIndex - ê²€ìƒ‰ êµ¬ê°„ì˜ ìš°ì¸¡ ì¸ë±ìŠ¤
-				  key - ê²€ìƒ‰í•  ë°ì´í„°
-Returns			: ê²€ìƒ‰ ì„±ê³µ ì‹œ ì°¾ì€ ìˆ«ìì˜ index / ê²€ìƒ‰ ì‹¤íŒ¨ ì‹œ -1 ë¦¬í„´
+Function name 	: rbinarySearch() - Àç±ÍÈ£Ãâ ±â¹ıÀÇ ÀÌºĞ °Ë»ö ÇÔ¼ö
+Parameters		: ap - °Ë»öÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  leftIndex - °Ë»ö ±¸°£ÀÇ ÁÂÃø ÀÎµ¦½º
+				  rightIndex - °Ë»ö ±¸°£ÀÇ ¿ìÃø ÀÎµ¦½º
+				  key - °Ë»öÇÒ µ¥ÀÌÅÍ
+Returns			: °Ë»ö ¼º°ø ½Ã Ã£Àº ¼ıÀÚÀÇ index / °Ë»ö ½ÇÆĞ ½Ã -1 ¸®ÅÏ
 ------------------------------------------------------------------------*/
 int rbinarySearch(int *ap, int leftIndex, int rightIndex, int key)
 {
-	// TODO
-	return 0;  // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	int midIndex;
+	if(leftIndex > rightIndex)
+        return -1;
+    midIndex = (leftIndex + rightIndex) / 2;
+    if(key == ap[midIndex])
+        return midIndex;
+
+    if (key < ap[midIndex])
+        return rbinarySearch(ap,leftIndex,midIndex-1,key);
+    else
+        return rbinarySearch(ap,midIndex+1,rightIndex,key);
+
 }
 /*--------------------------------------------------------------------
-Function name 	: quickSort() - í€µ ì •ë ¬ í•¨ìˆ˜
-Parameters		: ary - ì •ë ¬í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  size - ì†ŒíŠ¸í•  ë°ì´í„°ì˜ ê°œìˆ˜
-Returns			: ì—†ìŒ
+Function name 	: quickSort() - Äü Á¤·Ä ÇÔ¼ö
+Parameters		: ary - Á¤·ÄÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  size - ¼ÒÆ®ÇÒ µ¥ÀÌÅÍÀÇ °³¼ö
+Returns			: ¾øÀ½
 --------------------------------------------------------------------*/
 void quickSort(int *ap, int size)
 {
 	int pivot, temp;
 	int i, j;
 
-	if(size <= 1) return;// êµ¬ê°„ê°’ì´ 1ì´í•˜ì´ë©´ sortê°€ ì™„ë£Œëœ ê²ƒ ì´ë¯€ë¡œ return
+	if(size <= 1) return;// ±¸°£°ªÀÌ 1ÀÌÇÏÀÌ¸é sort°¡ ¿Ï·áµÈ °Í ÀÌ¹Ç·Î return
 
-	pivot = ap[size-1];         // êµ¬ê°„ì˜ ê°€ì¥ ìš°ì¸¡ê°’ì„ pivotìœ¼ë¡œ ì •í•¨
-	i = -1;        // iëŠ” ì¢Œì¸¡ì—ì„œ ë¶€í„° ê²€ìƒ‰í•  ìœ„ì¹˜ ì €ì¥
-	j = size-1;    // jëŠ” ìš°ì¸¡ì—ì„œ ë¶€í„° ê²€ìƒ‰í•  ìœ„ì¹˜ ì €ì¥
+	pivot = ap[size-1];         // ±¸°£ÀÇ °¡Àå ¿ìÃø°ªÀ» pivotÀ¸·Î Á¤ÇÔ
+	i = -1;        // i´Â ÁÂÃø¿¡¼­ ºÎÅÍ °Ë»öÇÒ À§Ä¡ ÀúÀå
+	j = size-1;    // j´Â ¿ìÃø¿¡¼­ ºÎÅÍ °Ë»öÇÒ À§Ä¡ ÀúÀå
 
-	while(1)       // ë¶„í•  ì‘ì—…
+	while(1)       // ºĞÇÒ ÀÛ¾÷
 	{
-		while(ap[++i] < pivot);  // ì¢Œì¸¡ìœ¼ë¡œë¶€í„° pivotë³´ë‹¤ í° ê°’ ìœ„ì¹˜ ì°¾ê¸°
-		while(j>0 && ap[--j] > pivot ); // ìš°ì¸¡ìœ¼ë¡œë¶€í„° pivotë³´ë‹¤ ì‘ì€ ê°’ ìœ„ì¹˜ ì°¾ê¸°
-		if(i >= j ) break; //iê°€ jë³´ë‹¤ í¬ê±°ë‚˜ ê°™ì•„ì§€ë©´ ë¶„í• ì´ ëì´ë¯€ë¡œ whileë¬¸ íƒˆì¶œ
-		// ì•„ë‹ˆë©´ iì™€ jë²ˆ ë°©ì˜ ê°’ swap
+		while(ap[++i] < pivot);  // ÁÂÃøÀ¸·ÎºÎÅÍ pivotº¸´Ù Å« °ª À§Ä¡ Ã£±â
+		while(j>0 && ap[--j] > pivot ); // ¿ìÃøÀ¸·ÎºÎÅÍ pivotº¸´Ù ÀÛÀº °ª À§Ä¡ Ã£±â
+		if(i >= j ) break; //i°¡ jº¸´Ù Å©°Å³ª °°¾ÆÁö¸é ºĞÇÒÀÌ ³¡ÀÌ¹Ç·Î while¹® Å»Ãâ
+		// ¾Æ´Ï¸é i¿Í j¹ø ¹æÀÇ °ª swap
 		temp = ap[i];
 		ap[i] = ap[j];
 		ap[j] = temp;
 	}
-	// ë¶„í• ì´ ëë‚¬ìœ¼ë©´ ië²ˆ ë°©ì˜ ê°’ê³¼ pivotìœ„ì¹˜ì˜ ê°’ swap
+	// ºĞÇÒÀÌ ³¡³µÀ¸¸é i¹ø ¹æÀÇ °ª°ú pivotÀ§Ä¡ÀÇ °ª swap
 	temp = ap[i];
-	ap[i] = ap[size-1];    // ì—¬ê¸°ì„œ pivotë³€ìˆ˜ì˜ ê°’ê³¼ ë°”ê¾¸ì§€ ì•Šë„ë¡ ì£¼ì˜
+	ap[i] = ap[size-1];    // ¿©±â¼­ pivotº¯¼öÀÇ °ª°ú ¹Ù²ÙÁö ¾Êµµ·Ï ÁÖÀÇ
 	ap[size-1] = temp;
 
-	quickSort(ap, i);             // ì¢Œì¸¡ ì†Œêµ¬ê°„ì— ëŒ€í•œ í€µ ì •ë ¬ ì¬ê·€ í˜¸ì¶œ
-	quickSort(ap+i+1, size-i-1);  // ìš°ì¸¡ ì†Œêµ¬ê°„ì— ëŒ€í•œ í€µ ì •ë ¬ ì¬ê·€ í˜¸ì¶œ
+	quickSort(ap, i);             // ÁÂÃø ¼Ò±¸°£¿¡ ´ëÇÑ Äü Á¤·Ä Àç±Í È£Ãâ
+	quickSort(ap+i+1, size-i-1);  // ¿ìÃø ¼Ò±¸°£¿¡ ´ëÇÑ Äü Á¤·Ä Àç±Í È£Ãâ
 }
 
 /*------------------------------------------------------------------------
-Function name 	: output() - ë°°ì—´ì˜ ëª¨ë“  ì›ì†Œ ì¶œë ¥í•˜ê¸°
-Parameters		: ary - ì •ë ¬í•  ë°ì´í„° ë°°ì—´ì˜ ì‹œì‘ì£¼ì†Œ
-				  size - ë°ì´í„°ì˜ ê°œìˆ˜
-Returns			: ì—†ìŒ
+Function name 	: output() - ¹è¿­ÀÇ ¸ğµç ¿ø¼Ò Ãâ·ÂÇÏ±â
+Parameters		: ary - Á¤·ÄÇÒ µ¥ÀÌÅÍ ¹è¿­ÀÇ ½ÃÀÛÁÖ¼Ò
+				  size - µ¥ÀÌÅÍÀÇ °³¼ö
+Returns			: ¾øÀ½
 ------------------------------------------------------------------------*/
 void output(int *ap, int size)
 {
