@@ -1,8 +1,8 @@
 #include <stdio.h>
-#define MAX_CONTROL 40	/* ì˜¨ë„ê°€ 0~40ë„ ì´ë¯€ë¡œ ìµœëŒ€ ì¡°ì‘íšŸìˆ˜ê°€ 40ì„ ì´ˆê³¼í•˜ì§€ ì•ŠìŒ */
-int currentTemperature; /* í˜„ì¬ì˜¨ë„ */
-int settingTemperature; /* ì„¤ì •ì˜¨ë„ */
-int minControl; /* ìµœì†Œ ë¦¬ëª¨ì»¨ ì¡°ì ˆ íšŸìˆ˜ */
+#define MAX_CONTROL 40	/* ¿Âµµ°¡ 0~40µµ ÀÌ¹Ç·Î ÃÖ´ë Á¶ÀÛÈ½¼ö°¡ 40À» ÃÊ°úÇÏÁö ¾ÊÀ½ */
+int currentTemperature; /* ÇöÀç¿Âµµ */
+int settingTemperature; /* ¼³Á¤¿Âµµ */
+int minControl; /* ÃÖ¼Ò ¸®¸ğÄÁ Á¶Àı È½¼ö */
 
 void solve(int temp, int cnt);
 /*-------------------------------------------------------------------------------------
@@ -12,24 +12,39 @@ int main()
 {
 	while (1) {
 		minControl = MAX_CONTROL;
-		printf("# í˜„ì¬ì˜¨ë„ ì„¤ì •ì˜¨ë„ ì…ë ¥(ë¬¸ìì…ë ¥ ì‹œ ì¢…ë£Œ) : ");
+		printf("# ÇöÀç¿Âµµ ¼³Á¤¿Âµµ ÀÔ·Â(¹®ÀÚÀÔ·Â ½Ã Á¾·á) :  ");
 		if (scanf("%d %d", &currentTemperature, &settingTemperature) != 2)
 			break;
 		solve(currentTemperature, 0);
-		printf("ë¦¬ëª¨ì»¨ ìµœì†Œ ì¡°ì‘ íšŸìˆ˜ : %díšŒ\n", minControl);
+		printf("¸®¸ğÄÁ ÃÖ¼Ò Á¶ÀÛ È½¼ö : %dÈ¸\n", minControl);
 	}
 	getchar(); 	getchar(); getchar();
 
 	return 0;
 }
 /*---------------------------------------------------------------------
- Function name 	: solve() - ì˜¨ë„ ì¡°ì ˆì„ ìœ„í•´ ë¦¬ëª¨ì»¨ì„ ì¡°ì‘ í•´ì•¼ í•  íšŸìˆ˜ ê³„ì‚°
- Parameters		: temperature - í˜„ì¬ ì˜¨ë„
- 	 	 	 	  cnt - í˜„ì¬ê¹Œì§€ì˜ ë¦¬ëª¨ì»¨ ì¡°ì‘ íšŸìˆ˜
- Returns		: ì—†ìŒ
+ Function name 	: solve() - ¿Âµµ Á¶ÀıÀ» À§ÇØ ¸®¸ğÄÁÀ» Á¶ÀÛ ÇØ¾ß ÇÒ È½¼ö °è»ê
+ Parameters		: temperature - ÇöÀç ¿Âµµ
+ 	 	 	 	  cnt - ÇöÀç±îÁöÀÇ ¸®¸ğÄÁ Á¶ÀÛ È½¼ö
+ Returns		: ¾øÀ½
  --------------------------------------------------------------------*/
 void solve(int temperature, int cnt)
 {
-	// TODO
-	return;
+	if(cnt > minControl) {
+        return;
+	}
+	if(temperature == settingTemperature){
+        if(cnt < minControl)
+            minControl = cnt;
+        return;
+	}
+	if(temperature < settingTemperature) {
+        solve(temperature + 10, cnt + 1);
+        solve(temperature + 5, cnt + 1);
+        solve(temperature + 1, cnt + 1);
+	} else {
+        solve(temperature - 10, cnt + 1);
+        solve(temperature - 5, cnt + 1);
+        solve(temperature -1, cnt + 1);
+	}
 }
