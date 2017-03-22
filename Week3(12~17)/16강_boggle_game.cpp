@@ -34,7 +34,7 @@ int main()
 	const char *searchWord[] = {"LECTOPIA", "LGE", "ASDVX"};
 	int count=0;  /* 게임 횟수 누적변수 */
 
-	fp=fopen("d:\\data\\boggleGame.txt", "rt");
+	fp=fopen("..\\data\\boggleGame.txt", "rt");
 	if(fp==NULL) {
 		printf("FILE open error!!\n");
 		return 1;

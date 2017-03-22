@@ -2,11 +2,11 @@
 #define CHECK (1)
 #define MAX_CNT 15
 
-int columnChk[MAX_CNT+1];             // column ì²´í¬ ë°°ì—´ (0ë²ˆë°© ì‚¬ìš© ì•ˆí•¨)
-int incDiagonalLineChk[MAX_CNT*2+1];  // ê°ë„ê°€ ì¦ê°€í•˜ëŠ” ëŒ€ê°ì„  ì²´í¬ ë°°ì—´ (0ë²ˆë°© ì‚¬ìš© ì•ˆí•¨)
-int decDiagonalLineChk[MAX_CNT*2+1];  // ê°ë„ê°€ ê°ì†Œí•˜ëŠ” ëŒ€ê°ì„  ì²´í¬ ë°°ì—´ (0ë²ˆë°© ì‚¬ìš© ì•ˆí•¨)
-int placementCnt;                     // ì„œë¡œ ê³µê²©ëª»í•˜ê²Œ ë°°ì¹˜ ê°€ëŠ¥í•œ ê²½ìš°ì˜ ìˆ˜ ì¹´ìš´íŠ¸ ë³€ìˆ˜
-int n;                                // queenì˜ ìˆ˜(ë˜í•œ í–‰,ì—´ì˜ ìˆ˜) ì €ìž¥ë³€ìˆ˜
+int columnChk[MAX_CNT+1];             // column Ã¼Å© ¹è¿­ (0¹ø¹æ »ç¿ë ¾ÈÇÔ)
+int incDiagonalLineChk[MAX_CNT*2+1];  // °¢µµ°¡ Áõ°¡ÇÏ´Â ´ë°¢¼± Ã¼Å© ¹è¿­ (0¹ø¹æ »ç¿ë ¾ÈÇÔ)
+int decDiagonalLineChk[MAX_CNT*2+1];  // °¢µµ°¡ °¨¼ÒÇÏ´Â ´ë°¢¼± Ã¼Å© ¹è¿­ (0¹ø¹æ »ç¿ë ¾ÈÇÔ)
+int placementCnt;                     // ¼­·Î °ø°Ý¸øÇÏ°Ô ¹èÄ¡ °¡´ÉÇÑ °æ¿ìÀÇ ¼ö Ä«¿îÆ® º¯¼ö
+int n;                                // queenÀÇ ¼ö(¶ÇÇÑ Çà,¿­ÀÇ ¼ö) ÀúÀåº¯¼ö
 /*-------------------------------------------------------------------------------------
 Function name 	: main()
 ------------------------------------------------------------------------------------*/
@@ -14,25 +14,39 @@ void nQueen(int row);
 
 int main()
 {
-	while(1)  // í€¸ì˜ ê°œìˆ˜ê°€ 1~MAX_CNT ê°œ ë²”ìœ„ê°€ ì•„ë‹ˆë©´ ìž¬ìž…ë ¥
+	while(1)  // ÄýÀÇ °³¼ö°¡ 1~MAX_CNT °³ ¹üÀ§°¡ ¾Æ´Ï¸é ÀçÀÔ·Â
 	{
-		printf("í€¸ì˜ ê°œìˆ˜ë¥¼ ìž…ë ¥ í•˜ì‹œì˜¤ : ");
+		printf("ÄýÀÇ °³¼ö¸¦ ÀÔ·Â ÇÏ½Ã¿À : ");
 		scanf("%d", &n);
 		if(n>0 && n<=MAX_CNT)
 			break;
 	}
 	nQueen(1);
-	printf("ë°°ì¹˜ ê°€ëŠ¥í•œ ê²½ìš°ì˜ ìˆ˜ : %d\n\n", placementCnt);
+	printf("¹èÄ¡ °¡´ÉÇÑ °æ¿ìÀÇ ¼ö : %d\n\n", placementCnt);
 	getchar(); getchar();
 	return 0;
 }
 /*------------------------------------------------------------------
-Function name 	: nQueen() - nê°œì˜ queenì„ ë°°ì¹˜í•˜ê¸° ìœ„í•œ ìž¬ê·€í˜¸ì¶œ í•¨ìˆ˜
-Parameters		: row - ì²´ìŠ¤íŒì˜ í–‰ë²ˆí˜¸(0í–‰ì€ ì‚¬ìš© ì•ˆí•¨)
-Returns			: ì—†ìŒ
+Function name 	: nQueen() - n°³ÀÇ queenÀ» ¹èÄ¡ÇÏ±â À§ÇÑ Àç±ÍÈ£Ãâ ÇÔ¼ö
+Parameters		: row - Ã¼½ºÆÇÀÇ Çà¹øÈ£(0ÇàÀº »ç¿ë ¾ÈÇÔ)
+Returns			: ¾øÀ½
 ------------------------------------------------------------------*/
 void nQueen(int row)
 {
-	// TODO
+	int i;
+	if(row>n)
+    {
+        placementCnt++;
+        return;
+    }
+    for(i=1; i<=n; i++)
+    {
+        if(!columnChk[i] && !incDiagonalLineChk[row+i] && !decDiagonalLineChk[n+(row-i)])
+        {
+            columnChk[i] = incDiagonalLineChk[row+i] = decDiagonalLineChk[n+(row-i)] = CHECK;
+            nQueen(row+1);
+            columnChk[i] = incDiagonalLineChk[row+i] = decDiagonalLineChk[n+(row-i)] = 0;
+        }
+    }
 	return;
 }

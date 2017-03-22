@@ -32,7 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../Week3(12~17)/16강_boggle_game.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
