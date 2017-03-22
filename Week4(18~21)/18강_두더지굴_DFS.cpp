@@ -1,33 +1,33 @@
 
 #include<stdio.h>
 enum BOOL {FALSE, TRUE};
-#define NL printf("\n") /* ì¤„ ë°”ê¾¸ê¸° ë§¤í¬ë¡œ */
-#define MAX_SIZE 30		/* mapì˜ ê°€ë¡œ(row), ì„¸ë¡œ(column)ì˜ ìµœëŒ€ í¬ê¸° */
-int map[MAX_SIZE + 1][MAX_SIZE + 1];  /* ë‘ë”ì§€ êµ´ì˜ ìƒíƒœ ì €ì¥(0í–‰, 0ì—´ ì‚¬ìš© ì•ˆí•¨) */
-BOOL dataLoad(const char *fileName);	/* ë°ì´í„° íŒŒì¼ì—ì„œ mapì •ë³´ë¥¼ ì…ë ¥ ë°›ì•„ mapì„ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜ */
-void initTunnelInfo(); 	/* êµ´ì˜ ì •ë³´ë¥¼ ì €ì¥í•  êµ¬ì¡°ì²´ ë°°ì—´ ì´ˆê¸°í™” í•¨ìˆ˜ */
-void solve(); 			/* ë‘ë”ì§€ êµ´ì˜ ê°œìˆ˜, í¬ê¸°ë¥¼ ê³„ì‚°í•˜ëŠ” í•¨ìˆ˜(ì¬ê·€í˜¸ì¶œ í˜•ì‹ì˜ dfs()í•¨ìˆ˜ ì´ìš©) */
-BOOL inRange(int row, int col);	/* row, column ê°’ì˜ ì í•©ì„± íŒë³„ í•¨ìˆ˜ */
-void dfs(int row, int col, int tNum);	/* row, colì˜ ë°©ì´ ë‘ë”ì§€ êµ´ì¸ì§€ dfsë°©ì‹ìœ¼ë¡œ ì¬ê·€í˜¸ì¶œí•˜ë©° ê²€ì‚¬í•˜ëŠ” í•¨ìˆ˜ */
-void output();			/* ë‘ë”ì§€ êµ´ ì •ë³´ ì¶œë ¥ í•¨ìˆ˜ */
+#define NL printf("\n") /* ÁÙ ¹Ù²Ù±â ¸ÅÅ©·Î */
+#define MAX_SIZE 30		/* mapÀÇ °¡·Î(row), ¼¼·Î(column)ÀÇ ÃÖ´ë Å©±â */
+int map[MAX_SIZE + 1][MAX_SIZE + 1];  /* µÎ´õÁö ±¼ÀÇ »óÅÂ ÀúÀå(0Çà, 0¿­ »ç¿ë ¾ÈÇÔ) */
+BOOL dataLoad(const char *fileName);	/* µ¥ÀÌÅÍ ÆÄÀÏ¿¡¼­ mapÁ¤º¸¸¦ ÀÔ·Â ¹Ş¾Æ mapÀ» ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö */
+void initTunnelInfo(); 	/* ±¼ÀÇ Á¤º¸¸¦ ÀúÀåÇÒ ±¸Á¶Ã¼ ¹è¿­ ÃÊ±âÈ­ ÇÔ¼ö */
+void solve(); 			/* µÎ´õÁö ±¼ÀÇ °³¼ö, Å©±â¸¦ °è»êÇÏ´Â ÇÔ¼ö(Àç±ÍÈ£Ãâ Çü½ÄÀÇ dfs()ÇÔ¼ö ÀÌ¿ë) */
+BOOL inRange(int row, int col);	/* row, column °ªÀÇ ÀûÇÕ¼º ÆÇº° ÇÔ¼ö */
+void dfs(int row, int col, int tNum);	/* row, colÀÇ ¹æÀÌ  µÎ´õÁö ±¼ÀÎÁö dfs¹æ½ÄÀ¸·Î Àç±ÍÈ£ÃâÇÏ¸ç °Ë»çÇÏ´Â ÇÔ¼ö */
+void output();			/* µÎ´õÁö ±¼ Á¤º¸ Ãâ·Â ÇÔ¼ö */
 
 typedef struct tunnel_info {
-	int number;  /* êµ´ ë²ˆí˜¸ */
-	int size;    /* êµ´ í¬ê¸° */
+	int number;  /* ±¼ ¹øÈ£ */
+	int size;    /* ±¼ Å©±â */
 }TunnelInfo;
 
-TunnelInfo tunnelInfo[MAX_SIZE * 2 + 1];    /* ë‘ë”ì§€ êµ´ì˜ í¬ê¸° ì €ì¥(2ë²ˆ ë°©ë¶€í„° ì‚¬ìš©) */
-int n;  			/* mapì˜ ê°€ë¡œ(row), ì„¸ë¡œ(column)ì˜ í¬ê¸° ì €ì¥ ë³€ìˆ˜ */
-int tunnelNumber;  /* ë‘ë”ì§€êµ´ ë²ˆí˜¸ */
+TunnelInfo tunnelInfo[MAX_SIZE * 2 + 1];    /* µÎ´õÁö ±¼ÀÇ Å©±â ÀúÀå(2¹ø ¹æºÎÅÍ »ç¿ë) */
+int n;  			/* mapÀÇ °¡·Î(row), ¼¼·Î(column)ÀÇ Å©±â ÀúÀå º¯¼ö */
+int tunnelNumber;  /* µÎ´õÁö±¼ ¹øÈ£ */
 /*-------------------------------------------------------------------------------------
-Function name 	: main() - ê·¸ë˜í”„ë¥¼ êµ¬í˜„í•˜ê³  DFS íƒìƒ‰ì„ ì‹¤ì‹œí•œë‹¤.
+Function name 	: main() - ±×·¡ÇÁ¸¦ ±¸ÇöÇÏ°í DFS Å½»öÀ» ½Ç½ÃÇÑ´Ù.
 ------------------------------------------------------------------------------------*/
 int main()
 {
-	const char *fileName[] = { "d:\\data\\ë‘ë”ì§€êµ´1.txt" , "d:\\data\\ë‘ë”ì§€êµ´2.txt", "d:\\data\\ë‘ë”ì§€êµ´3.txt" };
+	const char *fileName[] = { "..\\data\\µÎ´õÁö±¼1.txt" , "..\\data\\µÎ´õÁö±¼2.txt", "..\\data\\µÎ´õÁö±¼3.txt" };
 	size_t i;
 	for (i = 0; i < sizeof(fileName) / sizeof(fileName[0]); ++i) {
-		tunnelNumber = 2; /* ë‘ë”ì§€êµ´ ë²ˆí˜¸(1ì€ í„°ë„ì´ ìˆìŒì„ ì˜ë¯¸í•˜ë¯€ë¡œ 2ë²ˆ ë¶€í„° ì‚¬ìš©) */
+		tunnelNumber = 2; /* µÎ´õÁö±¼ ¹øÈ£(1Àº ÅÍ³ÎÀÌ ÀÖÀ½À» ÀÇ¹ÌÇÏ¹Ç·Î 2¹ø ºÎÅÍ »ç¿ë) */
 		if (dataLoad(fileName[i]) == FALSE) return 0;
 		solve();
 		output();
@@ -39,9 +39,9 @@ int main()
 	return 0;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: dataLoad() - ë°ì´í„° íŒŒì¼ì—ì„œ ê²€ì‚¬í•  ë°ì´í„°ë¥¼ ì…ë ¥ ë°›ì•„ mapì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
-Parameters		: char *fileName - ë‘ë”ì§€ êµ´ì˜ ì •ë³´ê°€ ì €ì¥ëœ ë°ì´í„° íŒŒì¼ëª…
-Returns			: íŒŒì¼ ì½ê¸°ê°€ ì„±ê³µí•˜ë©´ TRUE ë¦¬í„´, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name 	: dataLoad() - µ¥ÀÌÅÍ ÆÄÀÏ¿¡¼­ °Ë»çÇÒ µ¥ÀÌÅÍ¸¦ ÀÔ·Â ¹Ş¾Æ map¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+Parameters		: char *fileName - µÎ´õÁö ±¼ÀÇ Á¤º¸°¡ ÀúÀåµÈ µ¥ÀÌÅÍ ÆÄÀÏ¸í
+Returns			: ÆÄÀÏ ÀĞ±â°¡ ¼º°øÇÏ¸é TRUE ¸®ÅÏ, ½ÇÆĞÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL dataLoad(const char *fileName)
 {
@@ -64,33 +64,42 @@ BOOL dataLoad(const char *fileName)
 	return TRUE;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: initTunnelInfo() - êµ´ì˜ ì •ë³´ë¥¼ ì €ì¥í•  êµ¬ì¡°ì²´ ë°°ì—´ ì´ˆê¸°í™” í•¨ìˆ˜
-Parameters		: ì—†ìŒ
-Returns			: ì—†ìŒ
+Function name 	: initTunnelInfo() - ±¼ÀÇ Á¤º¸¸¦ ÀúÀåÇÒ ±¸Á¶Ã¼ ¹è¿­ ÃÊ±âÈ­ ÇÔ¼ö
+Parameters		: ¾øÀ½
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void initTunnelInfo()
 {
 	int i;
 	for (i = 0; i <= MAX_SIZE*2; ++i) {
 		tunnelInfo[i].number = i;
-		tunnelInfo[i].size = 0;  /* externìœ¼ë¡œ ì„ ì–¸ëœ ë°°ì—´ì˜ ë©¤ë²„ì´ë¯€ë¡œ ì•ˆí•´ë„ ë¨ */
+		tunnelInfo[i].size = 0;  /* externÀ¸·Î ¼±¾ğµÈ ¹è¿­ÀÇ ¸â¹öÀÌ¹Ç·Î ¾ÈÇØµµ µÊ */
 	}
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: solve() - ë‘ë”ì§€ êµ´ì˜ ê°œìˆ˜, í¬ê¸°ë¥¼ ê³„ì‚°í•˜ëŠ” í•¨ìˆ˜(ì¬ê·€í˜¸ì¶œ í˜•ì‹ì˜ dfsë¥¼ ì´ìš©í•œ í’€ì´)
-Parameters		: ì—†ìŒ
-Parameters		: ì—†ìŒ
+Function name 	: solve() - µÎ´õÁö ±¼ÀÇ °³¼ö, Å©±â¸¦ °è»êÇÏ´Â ÇÔ¼ö(Àç±ÍÈ£Ãâ Çü½ÄÀÇ dfs¸¦ ÀÌ¿ëÇÑ Ç®ÀÌ)
+Parameters		: ¾øÀ½
+Parameters		: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void solve()
 {
-	// TODO
+	int i, j;
+	initTunnelInfo();
+	for(i = 1; i <= n; ++i) {
+        for(j = 1; j <= n; ++j){
+            if(map[i][j] == 1){
+                dfs(i,j, tunnelNumber);
+                ++tunnelNumber;
+            }
+        }
+	}
 	return;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: inRange() - row, columnì˜ ì í•©ì„± íŒë³„ í•¨ìˆ˜
-Parameters		: int row - í–‰ ê°’
-                  int col - ì—´ ê°’
-Returns			: ì í•©í•œ ë²”ìœ„ì´ë©´ TRUE ë¦¬í„´, ë¶€ì í•©í•œ ë²”ìœ„ì´ë©´ FALSE ë¦¬í„´
+Function name 	: inRange() - row, columnÀÇ ÀûÇÕ¼º ÆÇº° ÇÔ¼ö
+Parameters		: int row - Çà °ª
+                  int col - ¿­ °ª
+Returns			: ÀûÇÕÇÑ ¹üÀ§ÀÌ¸é TRUE ¸®ÅÏ, ºÎÀûÇÕÇÑ ¹üÀ§ÀÌ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL inRange(int row, int col)
 {
@@ -100,26 +109,33 @@ BOOL inRange(int row, int col)
 		return FALSE;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: dfs() - row, colì˜ ë°©ì´ ë‘ë”ì§€ êµ´ì¸ì§€ dfsë°©ì‹ìœ¼ë¡œ ì¬ê·€í˜¸ì¶œí•˜ë©° ê²€ì‚¬í•˜ëŠ” í•¨ìˆ˜
-Parameters		: int row - í–‰ ê°’
-				  int col - ì—´ ê°’
-                  int tNum - ë‘ë”ì§€ êµ´ ë²ˆí˜¸
-Returns			: ì—†ìŒ
+Function name 	: dfs() - row, colÀÇ ¹æÀÌ µÎ´õÁö ±¼ÀÎÁö dfs¹æ½ÄÀ¸·Î Àç±ÍÈ£ÃâÇÏ¸ç °Ë»çÇÏ´Â ÇÔ¼ö
+Parameters		: int row - Çà °ª
+				  int col - ¿­ °ª
+                  int tNum - µÎ´õÁö ±¼ ¹øÈ£
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void dfs(int row, int col, int tNum)
 {
-	// TODO
+	if(inRange(row,col) == FALSE) return;
+	if(map[row][col] != 1) return;
+	map[row][col] = tNum;
+	++tunnelInfo[tNum].size;
+	dfs(row - 1, col, tNum);
+	dfs(row + 1, col, tNum);
+	dfs(row, col - 1, tNum);
+	dfs(row, col + 1, tNum);
 	return;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: output() - ë‘ë”ì§€ êµ´ ì •ë³´ ì¶œë ¥í•¨ìˆ˜
-Parameters		: ì—†ìŒ
-Returns			: ì—†ìŒ
+Function name 	: output() - µÎ´õÁö ±¼ Á¤º¸ Ãâ·ÂÇÔ¼ö
+Parameters		: ¾øÀ½
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void output()
 {
 	int i, j;
-	printf("** ë‘ë”ì§€ êµ´ ê°œìˆ˜ : %dê°œ\n", tunnelNumber-2);
+	printf("** µÎ´õÁö ±¼ °³¼ö : %d°³\n", tunnelNumber-2);
 	for (i = 1; i <= n; ++i) {
 		for (j = 1; j <= n; ++j) {
 			printf("%3d", map[i][j]);
@@ -128,7 +144,7 @@ void output()
 	}
 	NL;
 
-	printf("** ë‘ë”ì§€ êµ´ ì •ë³´ ì¶œë ¥ **\n");
+	printf("** µÎ´õÁö ±¼ Á¤º¸ Ãâ·Â **\n");
 	for (i = 2; i < tunnelNumber; ++i) {
 		printf("size of tunnel %d : %d\n", tunnelInfo[i].number, tunnelInfo[i].size);
 	}
