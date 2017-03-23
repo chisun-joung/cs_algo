@@ -3,22 +3,22 @@
 enum{RED=1, BLUE};
 enum BOOL{FALSE, TRUE};
 
-BOOL initGraph(FILE *fp); /* ë°ì´í„°íŒŒì¼ì—ì„œ ê·¸ë˜í”„ì˜ ì •ì ê³¼ ê°„ì„  ì •ë³´ë¥¼ ì…ë ¥ ë°›ì•„ ê·¸ë˜í”„ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” í•¨ìˆ˜ */
-void solve(int vNum, int col); /* DFSë¡œ íƒìƒ‰í•˜ì—¬ coloringì´ ê°€ëŠ¥í•œì§€ ê²€ì‚¬ */
-void outputGraph(); /* ê·¸ë˜í”„ë‚´ì˜ ì •ì ê³¼ ê°„ì„ ì˜ ê´€ê³„ë¥¼ ì¸ì ‘ í–‰ë ¬ í˜•íƒœë¡œ ì¶œë ¥ í•¨ */
+BOOL initGraph(FILE *fp); /* µ¥ÀÌÅÍÆÄÀÏ¿¡¼­ ±×·¡ÇÁÀÇ Á¤Á¡°ú °£¼± Á¤º¸¸¦ ÀÔ·Â ¹Ş¾Æ ±×·¡ÇÁ¸¦ ÃÊ±âÈ­ÇÏ´Â ÇÔ¼ö */
+void solve(int vNum, int col); /* DFS·Î Å½»öÇÏ¿© coloringÀÌ °¡´ÉÇÑÁö °Ë»ç */
+void outputGraph(); /* ±×·¡ÇÁ³»ÀÇ Á¤Á¡°ú °£¼±ÀÇ °ü°è¸¦ ÀÎÁ¢ Çà·Ä ÇüÅÂ·Î Ãâ·Â ÇÔ */
 
-int graph[MAX_VERTEX][MAX_VERTEX];	/* ì •ì ê°„ì˜ ì—°ê²° ìƒíƒœ ì €ì¥ ì¸ì ‘ í–‰ë ¬ ë°°ì—´ */
-int color[MAX_VERTEX];	/* ì •ì ì˜ ì»¬ëŸ¬ ê°’ ì €ì¥ */
-BOOL colorable;			/* binary coloringì´ ê°€ëŠ¥í•˜ë©´ TRUE, ì•„ë‹ˆë©´ FALSE */
-int vertexCnt, edgeCnt;	/* ì •ì  ê°œìˆ˜ì™€ ê°„ì„  ê°œìˆ˜ ì €ì¥ ê³µê°„ */
+int graph[MAX_VERTEX][MAX_VERTEX];	/* Á¤Á¡°£ÀÇ ¿¬°á »óÅÂ ÀúÀå ÀÎÁ¢ Çà·Ä ¹è¿­ */
+int color[MAX_VERTEX];	/* Á¤Á¡ÀÇ ÄÃ·¯ °ª ÀúÀå */
+BOOL colorable;			/* binary coloringÀÌ °¡´ÉÇÏ¸é TRUE, ¾Æ´Ï¸é FALSE */
+int vertexCnt, edgeCnt;	/* Á¤Á¡ °³¼ö¿Í °£¼± °³¼ö ÀúÀå °ø°£ */
 /*----------------------------------------------------------------------------------------
- í•¨ìˆ˜ëª… : main()
+ ÇÔ¼ö¸í : main()
 ----------------------------------------------------------------------------------------*/
 int main()
 {
 	int i;
-	FILE *fp;			/* ê·¸ë˜í”„ ì •ë³´ ì €ì¥ íŒŒì¼ì˜ íŒŒì¼í¬ì¸í„° */
-	fp=fopen("d:\\data\\binaryColor.txt", "rt");
+	FILE *fp;			/* ±×·¡ÇÁ Á¤º¸ ÀúÀå ÆÄÀÏÀÇ ÆÄÀÏÆ÷ÀÎÅÍ */
+	fp=fopen("..\\data\\binaryColor.txt", "rt");
 	if(fp==NULL){
 		printf("File open error!\n");
 		return 1;
@@ -28,9 +28,9 @@ int main()
 	{
 		outputGraph();
 		for(i=0; i<vertexCnt; ++i)
-			color[i] = 0;   /* ì •ì ì˜ color ì •ë³´ë¥¼ ì €ì¥í•  ë°°ì—´ ì´ˆê¸°í™” */
-		colorable=TRUE;		/* binary coloringì´ ê°€ëŠ¥ìœ¼ë¡œ ì´ˆê¸°í™” */
-		solve(0,RED);  /* 0ë²ˆ ì •ì , RED colorë¡œ ê¹Šì´ìš°ì„  íƒìƒ‰ ì‹œì‘ */
+			color[i] = 0;   /* Á¤Á¡ÀÇ color Á¤º¸¸¦ ÀúÀåÇÒ ¹è¿­ ÃÊ±âÈ­ */
+		colorable=TRUE;		/* binary coloringÀÌ °¡´ÉÀ¸·Î ÃÊ±âÈ­ */
+		solve(0,RED);  /* 0¹ø Á¤Á¡, RED color·Î ±íÀÌ¿ì¼± Å½»ö ½ÃÀÛ */
 
 		if(colorable == 0)
 			printf("Not BinaryColorable.\n\n");
@@ -42,44 +42,44 @@ int main()
 	return 0;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: initGraph() - ë°ì´í„°íŒŒì¼ì—ì„œ ê·¸ë˜í”„ì˜ ì •ì ê³¼ ê°„ì„  ì •ë³´ë¥¼ ì…ë ¥ ë°›ì•„ ê·¸ë˜í”„ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” í•¨ìˆ˜
-Parameters		: fp - ê·¸ë˜í”„ ì •ë³´ë¥¼ ì €ì¥í•˜ê³  ìˆëŠ” íŒŒì¼ì˜ íŒŒì¼ í¬ì¸í„°
-Returns			: ê·¸ë˜í”„ í•œ ì„¸íŠ¸ë¥¼ ì •ìƒì ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ë©´ TRUE ë¦¬í„´, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name 	: initGraph() - µ¥ÀÌÅÍÆÄÀÏ¿¡¼­ ±×·¡ÇÁÀÇ Á¤Á¡°ú °£¼± Á¤º¸¸¦ ÀÔ·Â ¹Ş¾Æ ±×·¡ÇÁ¸¦ ÃÊ±âÈ­ÇÏ´Â ÇÔ¼ö
+Parameters		: fp - ±×·¡ÇÁ Á¤º¸¸¦ ÀúÀåÇÏ°í ÀÖ´Â ÆÄÀÏÀÇ ÆÄÀÏ Æ÷ÀÎÅÍ
+Returns			: ±×·¡ÇÁ ÇÑ ¼¼Æ®¸¦ Á¤»óÀûÀ¸·Î ÃÊ±âÈ­ ÇÏ¸é TRUE ¸®ÅÏ, ½ÇÆĞÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL initGraph(FILE *fp)
 {
-	int vertex1, vertex2;  /* ê°„ì„ ì •ë³´ ì…ë ¥ì„ ìœ„í•œ ê³µê°„ */
+	int vertex1, vertex2;  /* °£¼±Á¤º¸ ÀÔ·ÂÀ» À§ÇÑ °ø°£ */
 	int i,j;       /* iterator */
 
-	fscanf(fp, "%d %d\n", &vertexCnt, &edgeCnt);  /* ì •ì ê³¼ ê°„ì„ ì˜ ê°œìˆ˜ë¥¼ ì½ê¸° */
+	fscanf(fp, "%d %d\n", &vertexCnt, &edgeCnt);  /* Á¤Á¡°ú °£¼±ÀÇ °³¼ö¸¦ ÀĞ±â */
 
 	if(vertexCnt==0 && edgeCnt==0)
-		return FALSE;  /* ê·¸ë˜í”„ ë°ì´í„° ì½ê¸°ë¥¼ ì‹¤íŒ¨í•˜ë©´ false ë¦¬í„´ */
+		return FALSE;  /* ±×·¡ÇÁ µ¥ÀÌÅÍ ÀĞ±â¸¦ ½ÇÆĞÇÏ¸é false ¸®ÅÏ */
 
-	/* ì •ì ì˜ ê°œìˆ˜ì— ë§ì¶° ì¸ì ‘ í–‰ë ¬ ì˜ì—­ ì´ˆê¸°í™” */
+	/* Á¤Á¡ÀÇ °³¼ö¿¡ ¸ÂÃç ÀÎÁ¢ Çà·Ä ¿µ¿ª ÃÊ±âÈ­ */
 	for(i=0; i<vertexCnt; ++i)
 		for(j=0; j<vertexCnt; ++j)
 				graph[i][j] = 0;
 
 
-	/* ë¬´ë°©í–¥ ê·¸ë˜í”„ì—ì„œì˜ ëŒ€ì¹­ì„±(Symmetry) ê³ ë ¤í•œ ì´ˆê¸°í™” í‘œê¸° */
+	/* ¹«¹æÇâ ±×·¡ÇÁ¿¡¼­ÀÇ ´ëÄª¼º(Symmetry) °í·ÁÇÑ ÃÊ±âÈ­ Ç¥±â */
 	for(i=0; i<edgeCnt; ++i)
 	{
 		fscanf(fp, "%d %d\n", &vertex1, &vertex2);
 		graph[vertex1][vertex2] = graph[vertex2][vertex1] = 1;
 	}
-	return TRUE;  /* ì„±ê³µì ìœ¼ë¡œ ê·¸ë˜í”„ ë°ì´í„°ë¥¼ ì½ì—ˆìœ¼ë©´ true ë¦¬í„´ */
+	return TRUE;  /* ¼º°øÀûÀ¸·Î ±×·¡ÇÁ µ¥ÀÌÅÍ¸¦ ÀĞ¾úÀ¸¸é true ¸®ÅÏ */
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: outputGraph() - ê·¸ë˜í”„ë‚´ì˜ ì •ì ê³¼ ê°„ì„ ì˜ ê´€ê³„ë¥¼ ì¸ì ‘ í–‰ë ¬ í˜•íƒœë¡œ ì¶œë ¥ í•¨
-Parameters		: ì—†ìŒ
-Returns			: ì—†ìŒ
+Function name 	: outputGraph() - ±×·¡ÇÁ³»ÀÇ Á¤Á¡°ú °£¼±ÀÇ °ü°è¸¦ ÀÎÁ¢ Çà·Ä ÇüÅÂ·Î Ãâ·Â ÇÔ
+Parameters		: ¾øÀ½
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void outputGraph()
 {
 	int i,j;         /* iterator */
 
-	/* ì •ì ëª… ê°€ë¡œë°©í–¥ ì¶œë ¥ */
+	/* Á¤Á¡¸í °¡·Î¹æÇâ Ãâ·Â */
 	printf("   ");
 	for(i=0; i<vertexCnt; ++i)
 		printf("%3d",i);
@@ -95,13 +95,32 @@ void outputGraph()
 	}
 }
 /*--------------------------------------------------------------------------------------
-Function name	: solve() - DFSë¡œ íƒìƒ‰í•˜ì—¬ coloringì´ ê°€ëŠ¥í•œì§€ ê²€ì‚¬
-Parameters		: vNum - ì •ì  ë²ˆí˜¸
-             	  col - ì§€ì •í•œ color ê°’
-Returns			: ì—†ìŒ
+Function name	: solve() - DFS·Î Å½»öÇÏ¿© coloringÀÌ °¡´ÉÇÑÁö °Ë»ç
+Parameters		: vNum - Á¤Á¡ ¹øÈ£
+             	  col - ÁöÁ¤ÇÑ color °ª
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void solve(int vNum, int col)
 {
-	// TODO
+	int i;
+
+	if(!colorable)
+        return;
+
+    color[vNum] = col;
+
+    for(i=0;i<vertexCnt;++i)
+    {
+        if(graph[vNum][i] == 0) continue;
+        if(color[i] == 0)
+            solve(i, (col == RED)? BLUE:RED);
+        else
+            if(color[i] == col)
+            {
+                colorable = FALSE;
+                return;
+            }
+    }
+
 	return;
 }

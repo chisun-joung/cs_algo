@@ -2,24 +2,24 @@
 #include<limits.h>
 #define MAX_VERTEX 10
 enum BOOL {	FALSE, TRUE };
-int graph[MAX_VERTEX+1][MAX_VERTEX+1]; /* ì •ì ê°„ì˜ ì—°ê²° ìƒíƒœ ì €ì¥ ì¸ì ‘ í–‰ë ¬ ë°°ì—´ */
-int vertexCnt, edgeCnt; /* ì •ì  ê°œìˆ˜ì™€ ê°„ì„  ê°œìˆ˜ ì €ì¥ ê³µê°„ */
-int check[MAX_VERTEX+1]; /* í˜„ì¬ê¹Œì§€ ë°©ë¬¸í•œ ì •ì  ì²´í¬ ë°°ì—´ */
-int start, goal; /* ì¶œë°œì—°êµ¬ë™ ë²ˆí˜¸ì™€ ë„ì°©ì—°êµ¬ë™ ë²ˆí˜¸ */
-int minDistance;  /* ìµœë‹¨ê±°ë¦¬ */
+int graph[MAX_VERTEX+1][MAX_VERTEX+1]; /* Á¤Á¡°£ÀÇ ¿¬°á »óÅÂ ÀúÀå ÀÎÁ¢ Çà·Ä ¹è¿­ */
+int vertexCnt, edgeCnt; /* Á¤Á¡ °³¼ö¿Í °£¼± °³¼ö ÀúÀå °ø°£ */
+int check[MAX_VERTEX+1]; /* ÇöÀç±îÁö ¹æ¹®ÇÑ Á¤Á¡ Ã¼Å© ¹è¿­ */
+int start, goal; /* Ãâ¹ß¿¬±¸µ¿ ¹øÈ£¿Í µµÂø¿¬±¸µ¿ ¹øÈ£ */
+int minDistance;  /* ÃÖ´Ü°Å¸® */
 
-BOOL initGraph(FILE *fp); /* ë°ì´í„°íŒŒì¼ì—ì„œ ê·¸ë˜í”„ì˜ ì •ì ê³¼ ê°„ì„  ì •ë³´ë¥¼ ì…ë ¥ ë°›ì•„ ì¸ì ‘í–‰ë ¬ë²•ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜ */
-void solve(int vertex, int sumDistance);  /* ì—°êµ¬ë™ ì´ë™ ì‹œ ìµœë‹¨ ê±°ë¦¬ë¥¼ ê³„ì‚°í•˜ëŠ” ì¬ê·€í•¨ìˆ˜ */
+BOOL initGraph(FILE *fp); /* µ¥ÀÌÅÍÆÄÀÏ¿¡¼­ ±×·¡ÇÁÀÇ Á¤Á¡°ú °£¼± Á¤º¸¸¦ ÀÔ·Â ¹Ş¾Æ ÀÎÁ¢Çà·Ä¹ıÀ¸·Î ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö */
+void solve(int vertex, int sumDistance);  /* ¿¬±¸µ¿ ÀÌµ¿ ½Ã ÃÖ´Ü °Å¸®¸¦ °è»êÇÏ´Â Àç±ÍÇÔ¼ö */
 
 /*----------------------------------------------------------------------------------------
- í•¨ìˆ˜ëª… : main()
+ ÇÔ¼ö¸í : main()
  ----------------------------------------------------------------------------------------*/
 int main() {
 	int i;
 
-	FILE *fp; /* ê·¸ë˜í”„ ì •ë³´ ì €ì¥ íŒŒì¼ì˜ íŒŒì¼í¬ì¸í„° */
+	FILE *fp; /* ±×·¡ÇÁ Á¤º¸ ÀúÀå ÆÄÀÏÀÇ ÆÄÀÏÆ÷ÀÎÅÍ */
 
-	fp = fopen("d:\\data\\ì—°êµ¬ë™.txt", "rt");
+	fp = fopen("..\\data\\¿¬±¸µ¿.txt", "rt");
 	if (fp == NULL) {
 		printf("File open error!\n");
 		return 1;
@@ -29,7 +29,7 @@ int main() {
 	fclose(fp);
 
 	while (1){
-		printf("ì¶œë°œë™ ë„ì°©ë™ ì…ë ¥(1~%d) : ", vertexCnt);
+		printf("Ãâ¹ßµ¿ µµÂøµ¿ ÀÔ·Â(1~%d) : ", vertexCnt);
 		scanf("%d %d", &start, &goal);
 		if( start==0 || goal==0 )
 			break;
@@ -37,47 +37,60 @@ int main() {
 		for(i=1; i<=vertexCnt; ++i)
 				check[i]=0;
 
-		minDistance = INT_MAX;	/* ìµœì†Œ ì´ë™ê±°ë¦¬ë¥¼ INT_MAX ê°’ìœ¼ë¡œ ì§€ì • */
+		minDistance = INT_MAX;	/* ÃÖ¼Ò ÀÌµ¿°Å¸®¸¦ INT_MAX °ªÀ¸·Î ÁöÁ¤ */
 
-		solve(start, 0); /* í˜„ì¬ê¹Œì§€ ë„ì°©í•œ ì—°êµ¬ë™ ë²ˆí˜¸, í˜„ì¬ê¹Œì§€ ì´ë™ ëˆ„ì  ê±°ë¦¬ë¡œ ì¬ê·€í•¨ìˆ˜ í˜¸ì¶œ*/
+		solve(start, 0); /* ÇöÀç±îÁö µµÂøÇÑ ¿¬±¸µ¿ ¹øÈ£, ÇöÀç±îÁö ÀÌµ¿ ´©Àû °Å¸®·Î Àç±ÍÇÔ¼ö È£Ãâ*/
 
 		if (minDistance == INT_MAX)
-			printf("ìµœë‹¨ê±°ë¦¬ : -1(ë„ì°©í•  ë¶ˆê°€ëŠ¥)\n");
+			printf("ÃÖ´Ü°Å¸® : -1(µµÂøÇÒ ºÒ°¡´É)\n");
 		else
-			printf("ìµœë‹¨ê±°ë¦¬ : %d\n", minDistance);
+			printf("ÃÖ´Ü°Å¸® : %d\n", minDistance);
 	}
 
 	getchar(); getchar();
 	return 0;
 }
 /*--------------------------------------------------------------------------------------
- Function name 	: initGraph() - ë°ì´í„°íŒŒì¼ì—ì„œ ê·¸ë˜í”„ì˜ ì •ì ê³¼ ê°„ì„  ì •ë³´ë¥¼ ì…ë ¥ ë°›ì•„ ì¸ì ‘í–‰ë ¬ë²•ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜
- Parameters		: fp - ê·¸ë˜í”„ ì •ë³´ë¥¼ ì €ì¥í•˜ê³  ìˆëŠ” íŒŒì¼ì˜ íŒŒì¼ í¬ì¸í„°
- Returns		: ê·¸ë˜í”„ í•œ ì„¸íŠ¸ë¥¼ ì •ìƒì ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ë©´ TRUE ë¦¬í„´, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+ Function name 	: initGraph() - µ¥ÀÌÅÍÆÄÀÏ¿¡¼­ ±×·¡ÇÁÀÇ Á¤Á¡°ú °£¼± Á¤º¸¸¦ ÀÔ·Â ¹Ş¾Æ ÀÎÁ¢Çà·Ä¹ıÀ¸·Î ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö
+ Parameters		: fp - ±×·¡ÇÁ Á¤º¸¸¦ ÀúÀåÇÏ°í ÀÖ´Â ÆÄÀÏÀÇ ÆÄÀÏ Æ÷ÀÎÅÍ
+ Returns		: ±×·¡ÇÁ ÇÑ ¼¼Æ®¸¦ Á¤»óÀûÀ¸·Î ÃÊ±âÈ­ ÇÏ¸é TRUE ¸®ÅÏ, ½ÇÆĞÇÏ¸é FALSE ¸®ÅÏ
  --------------------------------------------------------------------------------------*/
 BOOL initGraph(FILE *fp) {
-	int vertex1, vertex2; /* ê°„ì„ ë²ˆí˜¸ ì…ë ¥ ë³€ìˆ˜ */
-	int weight; /* ê°€ì¤‘ì²˜ ì…ë ¥ ë²ˆìˆ˜ */
+	int vertex1, vertex2; /* °£¼±¹øÈ£ ÀÔ·Â º¯¼ö */
+	int weight; /* °¡ÁßÃ³ ÀÔ·Â ¹ø¼ö */
 	int i; /* iterator */
 
-	if (fscanf(fp, "%d %d\n", &vertexCnt, &edgeCnt)!=2) /* ì •ì ê³¼ ê°„ì„ ì˜ ê°œìˆ˜ë¥¼ ì½ê¸° */
-		return FALSE; /* ê·¸ë˜í”„ ë°ì´í„° ì½ê¸°ë¥¼ ì‹¤íŒ¨í•˜ë©´ false ë¦¬í„´ */
+	if (fscanf(fp, "%d %d\n", &vertexCnt, &edgeCnt)!=2) /* Á¤Á¡°ú °£¼±ÀÇ °³¼ö¸¦ ÀĞ±â */
+		return FALSE; /* ±×·¡ÇÁ µ¥ÀÌÅÍ ÀĞ±â¸¦ ½ÇÆĞÇÏ¸é false ¸®ÅÏ */
 
-	/* ë¬´ë°©í–¥ ê·¸ë˜í”„ì—ì„œì˜ ëŒ€ì¹­ì„±(Symmetry) ê³ ë ¤í•œ ì´ˆê¸°í™” í‘œê¸° */
+	/* ¹«¹æÇâ ±×·¡ÇÁ¿¡¼­ÀÇ ´ëÄª¼º(Symmetry) °í·ÁÇÑ ÃÊ±âÈ­ Ç¥±â */
 	for (i = 0; i < edgeCnt; ++i) {
 		fscanf(fp, "%d %d %d\n", &vertex1, &vertex2, &weight);
 		graph[vertex1][vertex2] = graph[vertex2][vertex1] = weight;
 	}
-	return TRUE; /* ì„±ê³µì ìœ¼ë¡œ ê·¸ë˜í”„ ë°ì´í„°ë¥¼ ì½ì—ˆìœ¼ë©´ true ë¦¬í„´ */
+	return TRUE; /* ¼º°øÀûÀ¸·Î ±×·¡ÇÁ µ¥ÀÌÅÍ¸¦ ÀĞ¾úÀ¸¸é true ¸®ÅÏ */
 }
 /*--------------------------------------------------------------------------------------
- Function name	: solve() - ì—°êµ¬ë™ ì´ë™ ì‹œ ìµœë‹¨ ê±°ë¦¬ë¥¼ ê³„ì‚°í•˜ëŠ” ì¬ê·€í•¨ìˆ˜(ê¹Šì´ ìš°ì„  íƒìƒ‰ê¸°ë²•ìœ¼ë¡œ ê²€ìƒ‰)
- Parameters		: vertex - í˜„ì¬ê¹Œì§€ ë„ì°©í•œ ì—°êµ¬ë™ ë²ˆí˜¸
- 	 	 	 	  sumDistance - í˜„ì¬ê¹Œì§€ ì´ë™ ëˆ„ì  ê±°ë¦¬
- Returns		: ì—†ìŒ
+ Function name	: solve() - ¿¬±¸µ¿ ÀÌµ¿ ½Ã ÃÖ´Ü °Å¸®¸¦ °è»êÇÏ´Â Àç±ÍÇÔ¼ö(±íÀÌ ¿ì¼± Å½»ö±â¹ıÀ¸·Î °Ë»ö)
+ Parameters		: vertex - ÇöÀç±îÁö µµÂøÇÑ ¿¬±¸µ¿ ¹øÈ£
+ 	 	 	 	  sumDistance - ÇöÀç±îÁö ÀÌµ¿ ´©Àû °Å¸®
+ Returns		: ¾øÀ½
  --------------------------------------------------------------------------------------*/
 void solve(int vertex, int sumDistance)
 {
-	// TODO
-	return;
+	int i;
+
+	if(vertex == goal){
+        if(sumDistance < minDistance)
+            minDistance = sumDistance;
+        return;
+	}
+
+	for(i=1; i<= vertexCnt; i++){
+        if(!check[i] && graph[vertex][i]) {
+            check[i] = 1;
+            solve(i, sumDistance + graph[vertex][i]);
+            check[i] = 0;
+        }
+	}
 }
