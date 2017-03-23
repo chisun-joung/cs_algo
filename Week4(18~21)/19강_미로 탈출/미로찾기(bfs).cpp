@@ -1,36 +1,36 @@
 #include<stdio.h>
 #include "circularQueue.h"
 #define NL printf("\n")
-#define MAX_SIZE 100  /* ë¯¸ë¡œ row, columnì˜ ìµœëŒ€ í¬ê¸° */
+#define MAX_SIZE 100  /* ¹Ì·Î row, columnÀÇ ÃÖ´ë Å©±â */
 
-int map[MAX_SIZE + 1][MAX_SIZE  + 1];  /* ë¯¸ë¡œ ì§€ë„ë¥¼ ì €ì¥í•  ë°°ì—´(0í–‰, 0ì—´ ì‚¬ìš© ì•ˆí•¨) */
-int row, col;     /* mapì˜ ê°€ë¡œ(row), ì„¸ë¡œ(column)ì˜ í¬ê¸° ì €ì¥ ë³€ìˆ˜ */
-RC  start, goal;  /* ë¯¸ë¡œì˜ ì‹œì‘ì¢Œí‘œ, ê³¨ì¸ì¢Œí‘œ ì €ì¥ */
+int map[MAX_SIZE + 1][MAX_SIZE  + 1];  /* ¹Ì·Î Áöµµ¸¦ ÀúÀåÇÒ ¹è¿­(0Çà, 0¿­ »ç¿ë ¾ÈÇÔ) */
+int row, col;     /* mapÀÇ °¡·Î(row), ¼¼·Î(column)ÀÇ Å©±â ÀúÀå º¯¼ö */
+RC  start, goal;  /* ¹Ì·ÎÀÇ ½ÃÀÛÁÂÇ¥, °ñÀÎÁÂÇ¥ ÀúÀå */
 
-BOOL dataLoad(const char *fileName); /*  ë°ì´í„° íŒŒì¼ì—ì„œ ê²€ì‚¬í•  ë°ì´í„°ë¥¼ ì…ë ¥ ë°›ì•„ mapì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜ */
-int solve(); /* ë„ˆë¹„ ìš°ì„ íƒìƒ‰(BFS)ë°©ì‹ìœ¼ë¡œ ìµœë‹¨ê±°ë¦¬ êµ¬í•˜ëŠ” í•¨ìˆ˜ */
-void output(); /* ë¯¸ë¡œ ìƒíƒœ ì¶œë ¥í•¨ìˆ˜ */
-BOOL inRange(int r, int c); /* row, columnì˜ ì í•©ì„± íŒë³„ í•¨ìˆ˜ */
+BOOL dataLoad(const char *fileName); /*  µ¥ÀÌÅÍ ÆÄÀÏ¿¡¼­ °Ë»çÇÒ µ¥ÀÌÅÍ¸¦ ÀÔ·Â ¹Ş¾Æ map¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö */
+int solve(); /* ³Êºñ ¿ì¼±Å½»ö(BFS)¹æ½ÄÀ¸·Î ÃÖ´Ü°Å¸® ±¸ÇÏ´Â ÇÔ¼ö */
+void output(); /* ¹Ì·Î »óÅÂ Ãâ·ÂÇÔ¼ö */
+BOOL inRange(int r, int c); /* row, columnÀÇ ÀûÇÕ¼º ÆÇº° ÇÔ¼ö */
 
 /*-------------------------------------------------------------------------------------
 Function name 	: main()
 ------------------------------------------------------------------------------------*/
 int main()
 {
-	const char *fileName[] = { "d:\\data\\ë¯¸ë¡œì°¾ê¸°1.txt" , "d:\\data\\ë¯¸ë¡œì°¾ê¸°2.txt",
-								"d:\\data\\ë¯¸ë¡œì°¾ê¸°3.txt" };
+	const char *fileName[] = { "..\\data\\¹Ì·ÎÃ£±â1.txt" , "..\\data\\¹Ì·ÎÃ£±â2.txt",
+								"..\\data\\¹Ì·ÎÃ£±â3.txt" };
 	size_t i;
 	int res;
 	for (i = 0; i < sizeof(fileName) / sizeof(fileName[0]); ++i) {
 		if (dataLoad(fileName[i]) == FALSE) return 0;
 		res = solve();
 		if (res > 0) {
-			printf("ìµœë‹¨ ê±°ë¦¬ : %d\n\n", res);
+			printf("ÃÖ´Ü °Å¸® : %d\n\n", res);
 		}
 		else {
-			printf("ë„ë‹¬í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n\n");
+			printf("µµ´ŞÇÒ ¼ö ¾ø½À´Ï´Ù.\n\n");
 		}
-		
+
 		output();
 		NL;
 		printf("===================================================================\n\n");
@@ -40,9 +40,9 @@ int main()
 	return 0;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: dataLoad() - ë°ì´í„° íŒŒì¼ì—ì„œ ê²€ì‚¬í•  ë°ì´í„°ë¥¼ ì…ë ¥ ë°›ì•„ mapì— ì €ì¥í•˜ëŠ” í•¨ìˆ˜
-Parameters		: char *fileName - ë¯¸ë¡œ ì •ë³´ê°€ ì €ì¥ëœ ë°ì´í„° íŒŒì¼ëª…
-Returns			: íŒŒì¼ ì½ê¸°ê°€ ì„±ê³µí•˜ë©´ TRUE ë¦¬í„´, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name 	: dataLoad() - µ¥ÀÌÅÍ ÆÄÀÏ¿¡¼­ °Ë»çÇÒ µ¥ÀÌÅÍ¸¦ ÀÔ·Â ¹Ş¾Æ map¿¡ ÀúÀåÇÏ´Â ÇÔ¼ö
+Parameters		: char *fileName - ¹Ì·Î Á¤º¸°¡ ÀúÀåµÈ µ¥ÀÌÅÍ ÆÄÀÏ¸í
+Returns			: ÆÄÀÏ ÀĞ±â°¡ ¼º°øÇÏ¸é TRUE ¸®ÅÏ, ½ÇÆĞÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL dataLoad(const char *fileName){
 	FILE *fp;
@@ -56,36 +56,36 @@ BOOL dataLoad(const char *fileName){
 	if (fscanf(fp, "%d %d\n", &row, &col) != 2) return FALSE;
 	for (i = 1; i <= row; ++i) {
 		for (j = 1; j <= col; ++j) {
-			ch = fgetc(fp);   /* fpíŒŒì¼ë¡œ ë¶€í„° í•œ ë¬¸ì ì…ë ¥ ë°›ìŒ */
-			if (ch == '#') map[i][j] = -1;   /* ì…ë ¥ ë°›ì€ ë¬¸ìê°€ ë²½ ì´ë©´ */
-			else if (ch == '.') map[i][j] = -2; /* ì…ë ¥ ë°›ì€ ë¬¸ìê°€ ê¸¸ ì´ë©´ */
-			else if (ch == 'S') {  /* ì…ë ¥ ë°›ì€ ë¬¸ìê°€ ì‹œì‘ìœ„ì¹˜ ì´ë©´ */
+			ch = fgetc(fp);   /* fpÆÄÀÏ·Î ºÎÅÍ ÇÑ ¹®ÀÚ ÀÔ·Â ¹ŞÀ½ */
+			if (ch == '#') map[i][j] = -1;   /* ÀÔ·Â ¹ŞÀº ¹®ÀÚ°¡ º® ÀÌ¸é */
+			else if (ch == '.') map[i][j] = -2; /* ÀÔ·Â ¹ŞÀº ¹®ÀÚ°¡ ±æ ÀÌ¸é */
+			else if (ch == 'S') {  /* ÀÔ·Â ¹ŞÀº ¹®ÀÚ°¡ ½ÃÀÛÀ§Ä¡ ÀÌ¸é */
 				map[i][j] = 0;
-				start.row = i; start.col = j; 
+				start.row = i; start.col = j;
 			}
-			else if (ch == 'G') {  /* ì…ë ¥ ë°›ì€ ë¬¸ìê°€ ë„ì°©ìœ„ì¹˜ ì´ë©´ */
-				map[i][j] = -2;    /* goalì˜ ë¬¸ìë¥¼ ê¸¸(.)ë¡œ ë³€ê²½ */
+			else if (ch == 'G') {  /* ÀÔ·Â ¹ŞÀº ¹®ÀÚ°¡ µµÂøÀ§Ä¡ ÀÌ¸é */
+				map[i][j] = -2;    /* goalÀÇ ¹®ÀÚ¸¦ ±æ(.)·Î º¯°æ */
 				goal.row = i;	goal.col = j;
 			}
 		}
-		fgetc(fp);  /* í•œì¤„ ë’¤ì˜ \n(ê°œí–‰ë¬¸ì)ë¥¼ ì½ì–´ì„œ ë²„ë¦¼ */
+		fgetc(fp);  /* ÇÑÁÙ µÚÀÇ \n(°³Çà¹®ÀÚ)¸¦ ÀĞ¾î¼­ ¹ö¸² */
 	}
 	fclose(fp);
 	return TRUE;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: output() - ë¯¸ë¡œ ìƒíƒœ ì¶œë ¥í•¨ìˆ˜
-Parameters		: ì—†ìŒ
-Returns			: ì—†ìŒ
+Function name 	: output() - ¹Ì·Î »óÅÂ Ãâ·ÂÇÔ¼ö
+Parameters		: ¾øÀ½
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void output()
 {
 	int i, j;
-	printf("** ë¯¸ë¡œì¶œë ¥ **\n");
+	printf("** ¹Ì·ÎÃâ·Â **\n");
 	for (i = 1; i <= row; ++i) {
 		for (j = 1; j <= col; ++j) {
-			if(map[i][j]==-1)	printf("  #");        
-			else if (map[i][j] == -2) printf("  .");  
+			if(map[i][j]==-1)	printf("  #");
+			else if (map[i][j] == -2) printf("  .");
 			else if(map[i][j] == 0) printf("  S");
 			else printf("%3d", map[i][j]);
 		}
@@ -94,20 +94,43 @@ void output()
 	NL;
 }
 /*--------------------------------------------------------------------------------------
-Function name 	: solve() - BFSë°©ì‹ìœ¼ë¡œ ìµœë‹¨ê±°ë¦¬ êµ¬í•˜ëŠ” í•¨ìˆ˜
-Parameters		: ì—†ìŒ
-Returns			: ìµœë‹¨ê±°ë¦¬ ê°’
+Function name 	: solve() - BFS¹æ½ÄÀ¸·Î ÃÖ´Ü°Å¸® ±¸ÇÏ´Â ÇÔ¼ö
+Parameters		: ¾øÀ½
+Returns			: ÃÖ´Ü°Å¸® °ª
 --------------------------------------------------------------------------------------*/
 int solve()
 {
-	// TODO
-	return 0; // ë¦¬í„´ê°’ì€ ìˆ˜ì •í•˜ì„¸ìš”.
+	Queue que;
+	RC rc,tRc;
+	RC rcxy[4] ={ {-1,0},{1,0},{0,-1},{0,1}};
+	int tY, tX;
+
+	createQueue(&que, MAX_SIZE);
+	enqueue(&que,start);
+
+	while(!isQueueEmpty(&que)) {
+        dequeue(&que,&rc);
+        if(rc.row == goal.row && rc.col == goal.col)
+            break;
+        for(int i = 0; i < 4; i++) {
+            tY = rc.row + rcxy[i].row;
+            tX = rc.col + rcxy[i].col;
+            if(inRange(tY,tX) && map[tY][tX] == -2) {
+                map[tY][tX] = map[rc.row][rc.col] + 1;
+                tRc.row = tY;
+                tRc.col = tX;
+                enqueue(&que,tRc);
+            }
+        }
+	}
+	destroyQueue(&que);
+	return map[goal.row][goal.col];
 }
 /*--------------------------------------------------------------------------------------
-Function name	: inRange() - row, columì˜ ì í•©ì„± íŒë³„ í•¨ìˆ˜
-Parameters		: int r - í–‰ ê°’
-  	  	  	  	  int c - ì—´ ê°’
-Returns			: ì í•©í•œ ë²”ìœ„ì´ë©´ TRUE ë¦¬í„´, ë¶€ì í•©í•œ ë²”ìœ„ì´ë©´ FALSE ë¦¬í„´
+Function name	: inRange() - row, columÀÇ ÀûÇÕ¼º ÆÇº° ÇÔ¼ö
+Parameters		: int r - Çà °ª
+  	  	  	  	  int c - ¿­ °ª
+Returns			: ÀûÇÕÇÑ ¹üÀ§ÀÌ¸é TRUE ¸®ÅÏ, ºÎÀûÇÕÇÑ ¹üÀ§ÀÌ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL inRange(int r, int c)
 {

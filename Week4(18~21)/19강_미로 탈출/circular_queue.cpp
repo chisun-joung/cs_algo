@@ -1,118 +1,118 @@
-#include <stdio.h> 
-#include <malloc.h> 
-#include "circularQueue.h" 
+#include <stdio.h>
+#include <malloc.h>
+#include "circularQueue.h"
 
-/*--------------------------------------------------------------------------------------
-Function name	: createQueue - ì›í˜•í ìƒì„± ë° ì´ˆê¸°í™” í•¨ìˆ˜
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-				  size - íì˜ í¬ê¸°
-Returns			: ìƒì„± ì„±ê³µí•˜ë©´ TRUE, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+/*-------------------------------------------------------- ------------------------------
+Function name	: createQueue - ¿øÇüÅ¥ »ý¼º ¹× ÃÊ±âÈ­ ÇÔ¼ö
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+				  size - Å¥ÀÇ Å©±â
+Returns			: »ý¼º ¼º°øÇÏ¸é TRUE, ½ÇÆÐÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL createQueue(Queue * qp, int size)
 {
-	if (qp == NULL) {  /* qp í¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qp Æ÷ÀÎÅÍ NULL check*/
 		return FALSE;
 	}
-	qp->queue = (RC *)calloc(size, sizeof(RC));	/* queue ë©”ëª¨ë¦¬ í• ë‹¹ */
-	if (qp->queue != NULL) {	/* queue ë©”ëª¨ë¦¬ í• ë‹¹ ì„±ê³µ ì‹œ */
+	qp->queue = (RC *)calloc(size, sizeof(RC));	/* queue ¸Þ¸ð¸® ÇÒ´ç */
+	if (qp->queue != NULL) {	/* queue ¸Þ¸ð¸® ÇÒ´ç ¼º°ø ½Ã */
 		qp->size = size;
 		qp->front = 0;
 		qp->rear = 0;
 		return TRUE;
 	}
-	else {	/* queue ë©”ëª¨ë¦¬ í• ë‹¹ ì‹¤íŒ¨ ì‹œ */
+	else {	/* queue ¸Þ¸ð¸® ÇÒ´ç ½ÇÆÐ ½Ã */
 		return FALSE;
-	}	
+	}
 }
 /*--------------------------------------------------------------------------------------
-Function name	: isQueueEmpty - íê°€ ë¹„ì–´ìžˆëŠ”ê°€ ê²€ì‚¬
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ì™„ì „ížˆ ë¹„ì–´ìžˆìœ¼ë©´ TRUE ë¦¬í„´, ë¹„ì–´ìžˆì§€ ì•Šìœ¼ë©´ FALSE ë¦¬í„´
+Function name	: isQueueEmpty - Å¥°¡ ºñ¾îÀÖ´Â°¡ °Ë»ç
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ¿ÏÀüÈ÷ ºñ¾îÀÖÀ¸¸é TRUE ¸®ÅÏ, ºñ¾îÀÖÁö ¾ÊÀ¸¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL isQueueEmpty(const Queue *qp)
 {
-	if (qp == NULL) {  /* qpí¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qpÆ÷ÀÎÅÍ NULL check*/
 		return FALSE;
 	}
 
-	if (qp->front == qp->rear)	/* queueê°€ í……ë¹„ì–´ ìžˆìœ¼ë©´ */
+	if (qp->front == qp->rear)	/* queue°¡ ÅÖºñ¾î ÀÖÀ¸¸é */
 		return TRUE;
 	else
 		return FALSE;
 }
 /*--------------------------------------------------------------------------------------
-Function name	: isQueueFull - íê°€ ê½‰ì°¨ìžˆëŠ”ê°€ ê²€ì‚¬
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ê½‰ì°¨ ìžˆìœ¼ë©´ TRUE ë¦¬í„´, ì•„ë‹ˆë©´ FALSE ë¦¬í„´
+Function name	: isQueueFull - Å¥°¡ ²ËÂ÷ÀÖ´Â°¡ °Ë»ç
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ²ËÂ÷ ÀÖÀ¸¸é TRUE ¸®ÅÏ, ¾Æ´Ï¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL isQueueFull(const Queue *qp)
 {
-	if (qp == NULL) {  /* qpí¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qpÆ÷ÀÎÅÍ NULL check*/
 		return FALSE;
 	}
 
-	if (qp->front == (qp->rear + 1) % qp->size) /* queueê°€ ì™„ì „ížˆ ë¹„ì–´ ìžˆìœ¼ë©´ */
+	if (qp->front == (qp->rear + 1) % qp->size) /* queue°¡ ¿ÏÀüÈ÷ ºñ¾î ÀÖÀ¸¸é */
 		return TRUE;
 	else
 		return FALSE;
 }
 /*--------------------------------------------------------------------------------------
-Function name	: enqueue() - íì— ë°ì´í„° í•˜ë‚˜ë¥¼ ì €ìž¥í•¨
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-			  	  enqueData - íì— ì €ìž¥í•  ë°ì´í„°
-Returns			: ì„±ê³µì ìœ¼ë¡œ ì €ìž¥í•˜ë©´ TRUE, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name	: enqueue() - Å¥¿¡ µ¥ÀÌÅÍ ÇÏ³ª¸¦ ÀúÀåÇÔ
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+			  	  enqueData - Å¥¿¡ ÀúÀåÇÒ µ¥ÀÌÅÍ
+Returns			: ¼º°øÀûÀ¸·Î ÀúÀåÇÏ¸é TRUE, ½ÇÆÐÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL enqueue(Queue * qp, RC enqueData)
 {
-	if (qp == NULL) {  /* qpí¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qpÆ÷ÀÎÅÍ NULL check*/
 		return FALSE;
 	}
 
-	if (isQueueFull(qp))	/* queueê°€ ê½‰ì°¨ìžˆìœ¼ë©´ enqueue ë¶ˆê°€ */ 
+	if (isQueueFull(qp))	/* queue°¡ ²ËÂ÷ÀÖÀ¸¸é enqueue ºÒ°¡ */
 	{
 		return FALSE;
 	}
 
-	/* rear ìœ„ì¹˜ì— ë°ì´í„° ì €ìž¥ í›„ rear ì¦ê°€ */
+	/* rear À§Ä¡¿¡ µ¥ÀÌÅÍ ÀúÀå ÈÄ rear Áõ°¡ */
 	qp->queue[qp->rear] = enqueData;
 	qp->rear = (qp->rear + 1) % qp->size;
 	return TRUE;
 
 }
 /*--------------------------------------------------------------------------------------
-Function name	: dequeue() - íì—ì„œ ë°ì´í„° í•˜ë‚˜ë¥¼ êº¼ëƒ„
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-				  dequeData - êº¼ë‚¸ ë°ì´í„°ë¥¼ ì €ìž¥í•  ê¸°ì–µê³µê°„ì˜ ì£¼ì†Œ
-Returns			: ì„±ê³µì ìœ¼ë¡œ êº¼ë‚´ë©´ TRUE, ì‹¤íŒ¨í•˜ë©´ FALSE ë¦¬í„´
+Function name	: dequeue() - Å¥¿¡¼­ µ¥ÀÌÅÍ ÇÏ³ª¸¦ ²¨³¿
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+				  dequeData - ²¨³½ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ±â¾ï°ø°£ÀÇ ÁÖ¼Ò
+Returns			: ¼º°øÀûÀ¸·Î ²¨³»¸é TRUE, ½ÇÆÐÇÏ¸é FALSE ¸®ÅÏ
 --------------------------------------------------------------------------------------*/
 BOOL dequeue(Queue * qp, RC * dequeData)
 {
-	if (qp == NULL) {  /* qpí¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qpÆ÷ÀÎÅÍ NULL check*/
 		return FALSE;
 	}
 
-	if (isQueueEmpty(qp))	/* íê°€ ë¹„ì–´ìžˆìœ¼ë©´ dequeue ë¶ˆê°€ */
+	if (isQueueEmpty(qp))	/* Å¥°¡ ºñ¾îÀÖÀ¸¸é dequeue ºÒ°¡ */
 	{
 		return FALSE;
 	}
 
-	/* ë°ì´í„°ë¥¼ frontìœ„ì¹˜ì—ì„œ êº¼ë‚´ dequeDataê°€ ê°€ë¦¬í‚¤ëŠ” ê³³ì— ì €ìž¥ í•¨ */
+	/* µ¥ÀÌÅÍ¸¦ frontÀ§Ä¡¿¡¼­ ²¨³» dequeData°¡ °¡¸®Å°´Â °÷¿¡ ÀúÀå ÇÔ */
 	*dequeData = qp->queue[qp->front];
 	qp->front = (qp->front + 1) % qp->size;
 
 	return TRUE;
 }
 /*--------------------------------------------------------------------------------------
-Function name	: printQueue() - í ë‚´ì˜ ëª¨ë“  ë°ì´í„°ë¥¼ ì¶œë ¥ í•¨
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ì—†ìŒ
+Function name	: printQueue() - Å¥ ³»ÀÇ ¸ðµç µ¥ÀÌÅÍ¸¦ Ãâ·Â ÇÔ
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void printQueue(const Queue * qp)
 {
-	if (qp == NULL) {  /* qpí¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qpÆ÷ÀÎÅÍ NULL check*/
 		return;
 	}
-	/* queueë‚´ì˜ ëª¨ë“  ë°ì´í„° ì¶œë ¥ (dequeue í•˜ë©´ ì¶œë ¥ë˜ëŠ” ìˆœì„œë¡œ ì¶œë ¥) */
+	/* queue³»ÀÇ ¸ðµç µ¥ÀÌÅÍ Ãâ·Â (dequeue ÇÏ¸é Ãâ·ÂµÇ´Â ¼ø¼­·Î Ãâ·Â) */
 	for (int i = qp->front; i != qp->rear; i = (i + 1) % qp->size)
 	{
 		printf("(%d,%d) ", qp->queue[i].row, qp->queue[i].col);
@@ -120,20 +120,20 @@ void printQueue(const Queue * qp)
 	printf("\n");
 }
 /*--------------------------------------------------------------------------------------
-Function name	: destroyQueue() - í ì†Œë©¸ í•¨ìˆ˜
-Parameters		: qp - í êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ
-Returns			: ì—†ìŒ
+Function name	: destroyQueue() - Å¥ ¼Ò¸ê ÇÔ¼ö
+Parameters		: qp - Å¥ ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò
+Returns			: ¾øÀ½
 --------------------------------------------------------------------------------------*/
 void destroyQueue(Queue * qp)
 {
-	if (qp == NULL) {  /* qpí¬ì¸í„° NULL check*/
+	if (qp == NULL) {  /* qpÆ÷ÀÎÅÍ NULL check*/
 		return;
 	}
 
-	if (qp->queue != NULL) { /* queueë¡œ ì‚¬ìš©ë˜ëŠ” ë°°ì—´ ë©”ëª¨ë¦¬ í•´ì œ */
+	if (qp->queue != NULL) { /* queue·Î »ç¿ëµÇ´Â ¹è¿­ ¸Þ¸ð¸® ÇØÁ¦ */
 		free(qp->queue);
 	}
-	qp->queue = NULL;	/* queue ë©¤ë²„ë¥¼ NULL pointerë¡œ ì´ˆê¸°í™” */
-	qp->size = 0;		/* sizeë©¤ë²„ë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™” */
-	qp->front = qp->rear = 0;	/* front, rear ë©¤ë²„ë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™” */
+	qp->queue = NULL;	/* queue ¸â¹ö¸¦ NULL pointer·Î ÃÊ±âÈ­ */
+	qp->size = 0;		/* size¸â¹ö¸¦ 0À¸·Î ÃÊ±âÈ­ */
+	qp->front = qp->rear = 0;	/* front, rear ¸â¹ö¸¦ 0À¸·Î ÃÊ±âÈ­ */
 }

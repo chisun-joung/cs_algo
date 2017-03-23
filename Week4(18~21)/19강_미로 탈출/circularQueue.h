@@ -1,21 +1,21 @@
-#pragma once 
+#pragma once
 enum BOOL { FALSE, TRUE };
 
-typedef struct rowcol { /* í–‰ì—´ ì¢Œí‘œ 1 ì„¸íŠ¸ë¥¼ ì €ì¥í•˜ëŠ” êµ¬ì¡°ì²´ */
+typedef struct rowcol { /* Çà¿­ ÁÂÇ¥ 1 ¼¼Æ®¸¦ ÀúÀåÇÏ´Â ±¸Á¶Ã¼ */
 	int row;
 	int col;
 }RC;
 
-typedef struct _queue { /* ì›í˜•í ê´€ë¦¬ êµ¬ì¡°ì²´ */
+typedef struct _queue { /* ¿øÇüÅ¥ °ü¸® ±¸Á¶Ã¼ */
 	RC *queue;
 	int size;
 	int front, rear;
 }Queue;
 
-BOOL createQueue(Queue * qp, int size);		/* í ìƒì„± ë° ì´ˆê¸°í™” í•¨ìˆ˜ */
-BOOL isQueueEmpty(const Queue *qp);			/* íê°€ ì™„ì „íˆ ë¹„ì–´ìˆëŠ”ê°€ */
-BOOL isQueueFull(const Queue *qp);			/* íê°€ ê½‰ì°¨ìˆëŠ”ê°€ ê²€ì‚¬ */
-BOOL enqueue(Queue * qp, RC enqueData);		/* íì— ë°ì´í„° í•˜ë‚˜ë¥¼ ì €ì¥ í•¨ */
-BOOL dequeue(Queue * qp, RC * dequeData);	/* íì—ì„œ ë°ì´í„° í•˜ë‚˜ë¥¼ êº¼ëƒ„ */
-void printQueue(const Queue * qp);			/* í ë‚´ì˜ ëª¨ë“  ë°ì´í„°ë¥¼ ì¶œë ¥(dequeueí•˜ëŠ” ê²ƒì€ ì•„ë‹˜) */
-void destroyQueue(Queue * qp);				/* í ì†Œë©¸ í•¨ìˆ˜ */
+BOOL createQueue(Queue * qp, int size);		/* Å¥ »ı¼º ¹× ÃÊ±âÈ­ ÇÔ¼ö */
+BOOL isQueueEmpty(const Queue *qp);			/* Å¥°¡ ¿ÏÀüÈ÷ ºñ¾îÀÖ´Â°¡ */
+BOOL isQueueFull(const Queue *qp);			/* Å¥°¡ ²ËÂ÷ÀÖ´Â°¡ °Ë»ç */
+BOOL enqueue(Queue * qp, RC enqueData);		/* Å¥¿¡ µ¥ÀÌÅÍ ÇÏ³ª¸¦ ÀúÀå ÇÔ */
+BOOL dequeue(Queue * qp, RC * dequeData);	/* Å¥¿¡¼­ µ¥ÀÌÅÍ ÇÏ³ª¸¦ ²¨³¿ */
+void printQueue(const Queue * qp);			/* Å¥ ³»ÀÇ ¸ğµç µ¥ÀÌÅÍ¸¦ Ãâ·Â(dequeueÇÏ´Â °ÍÀº ¾Æ´Ô) */
+void destroyQueue(Queue * qp);				/* Å¥ ¼Ò¸ê ÇÔ¼ö */
