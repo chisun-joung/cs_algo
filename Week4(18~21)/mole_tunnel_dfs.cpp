@@ -168,7 +168,7 @@ Function name 	: main() - 그래프를 구현하고 DFS 탐색을 실시한다.
 ------------------------------------------------------------------------------------*/
 int main()
 {
-	const char *fileName[] = { "d:\\data\\두더지굴1.txt" , "d:\\data\\두더지굴2.txt", "d:\\data\\두더지굴3.txt" };
+	const char *fileName[] = { "d:\\data\\두더지굴1.txt" , "d:\\data\\두더지굴2.txt", "d:\\data\\두더지굴3.txt", "d:\\data\\두더지굴4.txt" };
 	size_t i;
 	for (i = 0; i < sizeof(fileName) / sizeof(fileName[0]); ++i) {
 		tunnelNumber = 2; /* 두더지굴 번호(1은 터널이 있음을 의미하므로 2번 부터 사용) */
@@ -265,6 +265,8 @@ void bfs(int row, int col, int tNum)
 	start.row = row;
 	start.col = col;
 	enqueue(&que,start);
+	map[row][col] = tNum; 		/*  map의 row행 col방의 값을 두더지 굴 번호로 수정 */
+	++tunnelInfo[tNum].size;  	/* 두더지굴의 크기 증가 */
 	while(!isQueueEmpty(&que)) {
 		dequeue(&que,&rc);
 
