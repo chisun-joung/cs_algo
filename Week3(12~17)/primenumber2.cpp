@@ -116,6 +116,7 @@ int main() {
 	int res;
 	int startTime, endTime;
 	while(1){
+		numDigit=0;
 		initPrime();
 		printf("숫자를 입력하시라 : ");
 		gets(digit);
