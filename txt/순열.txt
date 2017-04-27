@@ -1,0 +1,33 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define SWAP(t,a,b) { t=a; a=b; b=t; }
+void permutation(size_t level);
+char data[]="ABC";
+size_t len;  // 순열을 구한 문자열의 길이(데이터의 개수)
+int cnt;
+
+int main()
+{
+	len=strlen(data);
+	permutation(0);
+	getchar();
+
+	return 0;
+}
+void permutation(size_t level)
+{
+	size_t i;
+	char temp;
+	cnt++;
+	if(level==len-1){  // level단위까지 조합하였으면 하나의 순열 완성!
+		printf("%s\n", data);  // 완성된 순열 출력
+	}
+	else {
+		for(i=level; i<len; i++) {
+			SWAP(temp, data[i], data[level]);  // i번방과 level번 방 swap
+			permutation(level+1);
+			SWAP(temp, data[i], data[level]);
+		}
+	}
+}
