@@ -1,0 +1,13 @@
+// 아래 코드를 main()함수가 있는 파일의 최상단에 위치시키고...
+
+#define _CRTDBG_MAP_ALLOC 
+#include <stdlib.h>
+#include <crtdbg.h>
+
+
+--------------------------------------------------------------------
+int main() {
+   calloc(1, sizeof(int));
+   _CrtDumpMemoryLeaks();//main의 가장 끝에 위치에 놓고 디버그모드로 실행(F5키만 입력하여 수행하고 나면 프로그램 종료후 에러메세지 창에 메모리 누수상황 출력되어있음)
+   return 0;
+} 
